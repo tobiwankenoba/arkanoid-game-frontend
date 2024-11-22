@@ -13,8 +13,29 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 11,
   },
-  plugins: ['@typescript-eslint'],
+  plugins: ['@typescript-eslint', 'import'],
   rules: {
     '@typescript-eslint/ban-ts-comment': 1,
+    'import/order': [
+      2,
+      {
+        groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
+        'newlines-between': 'always',
+        pathGroups: [
+          {
+            pattern: '@/**',
+            group: 'internal',
+
+          },
+          {
+            pattern: '@mui/**',
+            group: 'external',
+          }
+        ],
+        alphabetize: {
+          order: 'asc'
+        }
+      }
+    ]
   },
 }
