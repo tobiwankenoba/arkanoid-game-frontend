@@ -1,54 +1,70 @@
 import { RouteObject } from 'react-router-dom'
 
-import { AuthPage } from '@/pages/AuthPage'
+import { ROUTES } from '@/constants/routes'
 import { ForumPage } from '@/pages/ForumPage'
 import { ForumTopicPage } from '@/pages/ForumTopicPage'
 import { GamePage } from '@/pages/GamePage'
 import { HomePage } from '@/pages/HomePage'
 import { LeaderboardPage } from '@/pages/LeaderboardPage'
+import { LoginPage } from '@/pages/LoginPage'
 import { NotFoundPage } from '@/pages/NotFoundPage'
 import { ProfilePage } from '@/pages/ProfilePage'
+import { RegisterPage } from '@/pages/RegisterPage'
 import { ServerErrorPage } from '@/pages/ServerErrorPage'
+
+import { PrivateRoute } from './privateRoute'
 
 export const routes: RouteObject[] = [
   {
-    path: '/',
+    path: ROUTES.home,
     element: <HomePage />,
   },
   {
-    path: '/game',
+    path: ROUTES.game,
     element: <GamePage />,
   },
   {
-    path: '/leaderboard',
+    path: ROUTES.leaderboard,
     element: <LeaderboardPage />,
   },
   {
-    path: '/login',
-    element: <AuthPage type="login" />,
+    path: ROUTES.login,
+    element: <LoginPage />,
   },
   {
-    path: '/register',
-    element: <AuthPage type="register" />,
+    path: ROUTES.register,
+    element: <RegisterPage />,
   },
   {
-    path: '/profile',
-    element: <ProfilePage />,
+    path: ROUTES.profile,
+    element: (
+      <PrivateRoute>
+        <ProfilePage />
+      </PrivateRoute>
+    ),
   },
   {
-    path: '/forum',
-    element: <ForumPage />,
+    path: ROUTES.forum,
+    element: (
+      <PrivateRoute>
+        <ForumPage />
+      </PrivateRoute>
+    ),
   },
   {
-    path: '/forum/topic/:id',
-    element: <ForumTopicPage />,
+    path: ROUTES.forumTopic,
+    element: (
+      <PrivateRoute>
+        <ForumTopicPage />
+      </PrivateRoute>
+    ),
   },
   {
-    path: '/500',
+    path: ROUTES.serverError,
     element: <ServerErrorPage />,
   },
   {
-    path: '/404',
+    path: ROUTES.notFound,
     element: <NotFoundPage />,
   },
   {
