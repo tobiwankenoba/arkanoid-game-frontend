@@ -1,4 +1,6 @@
+import { Button } from '@mui/material'
 import { useEffect } from 'react'
+
 import './App.css'
 
 function App() {
@@ -12,7 +14,12 @@ function App() {
 
     fetchServerData()
   }, [])
-  return <div className="App">Вот тут будет жить ваше приложение :)</div>
+  return (
+    <div className="App">
+      Вот тут будет жить ваше приложение :)
+      <Button variant="contained">Hello</Button>
+    </div>
+  )
 }
 
 export default App
