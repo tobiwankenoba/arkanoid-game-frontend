@@ -1,7 +1,9 @@
 import { Button } from '@mui/material'
 import { useEffect } from 'react'
+import { RouterProvider } from 'react-router-dom'
 
 import './App.css'
+import { router } from './router/router'
 
 function App() {
   useEffect(() => {
@@ -16,6 +18,7 @@ function App() {
   }, [])
   return (
     <div className="App">
+      <RouterProvider router={router} />
       Вот тут будет жить ваше приложение :)
       <Button variant="contained">Hello</Button>
     </div>
