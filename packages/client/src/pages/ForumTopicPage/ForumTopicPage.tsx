@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { DRAWER_NAVIGATION_LINKS_TOPIC_PAGE } from '@/constants/drawerNav'
@@ -25,9 +25,9 @@ export const ForumTopicPage: React.FC = () => {
     MOCK_COMMENTS_FORUM.filter(comment => comment.topicId === Number(id))
   )
 
-  const handleActiveComments = (newComment: TCommentTopic) => {
+  const handleActiveComments = useCallback((newComment: TCommentTopic) => {
     setActiveComments(prev => [...prev, newComment])
-  }
+  }, [])
 
   return (
     <Box display="flex">
@@ -46,7 +46,7 @@ export const ForumTopicPage: React.FC = () => {
         <Topic {...currentTopic} />
         <AddComment
           lastCommentId={activeComments[activeComments.length - 1]?.id ?? 0}
-          currentTopicId={currentTopic.id}
+          currentTopicId={currentTopic?.id ?? 0}
           onAddComment={handleActiveComments}
         />
         <Comments comments={activeComments} />

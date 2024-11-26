@@ -3,6 +3,7 @@ import { useCallback, useState } from 'react'
 
 import { ModalComponent } from '@/components/Modal'
 import { DRAWER_NAVIGATION_LINKS } from '@/constants/drawerNav'
+import { WIDTH_DRAWER_WINDOW } from '@/constants/forum'
 import { MOCK_FORUM_TOPICS } from '@/constants/mockForumTopics'
 import { useToggleState } from '@/hooks/useToggleState'
 import { TTopic } from '@/types/topic'
@@ -35,7 +36,7 @@ export const ForumPage: React.FC = () => {
         sx={{
           flexGrow: 1,
           p: 3,
-          width: { sm: `calc(100% - ${260}px)` },
+          width: { sm: `calc(100% - ${WIDTH_DRAWER_WINDOW}px)` },
         }}>
         <List sx={{ width: 600 }}>
           {topics.map((topic, index) => (

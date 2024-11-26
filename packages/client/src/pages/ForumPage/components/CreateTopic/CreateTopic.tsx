@@ -1,49 +1,63 @@
 import { Box, Button, TextField } from '@mui/material'
-import { useRef, useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 
 import { TTopic } from '@/types/topic'
 
-type CreateTopicProps = {
+type TCreateTopicProps = {
   onAddTopic: (value: TTopic) => void
   onToggleModalVisible: VoidFunction
   lastTopicId: number
 }
 
-export const CreateTopic: React.FC<CreateTopicProps> = ({
+export const CreateTopic: React.FC<TCreateTopicProps> = ({
   onAddTopic,
   onToggleModalVisible,
   lastTopicId,
-}: CreateTopicProps) => {
+}: TCreateTopicProps) => {
   const [createButtonDisabled, setCreateButtonDisabled] = useState(true)
 
-  const titleRef = useRef<HTMLInputElement>(null)
+  const [title, setTitle] = useState<string>()
 
-  const textRef = useRef<HTMLTextAreaElement>(null)
+  const [text, setText] = useState<string>()
 
   const handleCreateTopic = () => {
-    if (titleRef.current && textRef.current) {
+    if (title && text) {
       onAddTopic({
         id: ++lastTopicId,
-        title: titleRef.current.value,
-        text: textRef.current.value,
+        title: title,
+        text: text,
       })
     }
 
     onToggleModalVisible()
   }
 
-  const handleChangeInputs = () => {
+  const handleChangeInputs = (title: string, text: string) => {
     setCreateButtonDisabled(
-      Number(titleRef.current?.value.trim().length) < 4 ||
-        Number(textRef.current?.value.trim().length) < 16
+      Number(title?.trim().length) < 4 || Number(text?.trim().length) < 16
     )
+  }
+
+  const handleTitle = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setTitle(e.target.value)
+
+    handleChangeInputs(e.target.value, String(text))
+  }
+
+  const handleText = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setText(e.target.value)
+
+    handleChangeInputs(String(title), e.target.value)
   }
 
   return (
     <Box display="flex" flexDirection="column" gap={3}>
       <TextField
-        inputRef={titleRef}
-        onChange={handleChangeInputs}
+        onChange={e => handleTitle(e)}
         id="outlined-basic"
         label="Title"
         variant="outlined"
@@ -51,8 +65,7 @@ export const CreateTopic: React.FC<CreateTopicProps> = ({
       <TextField
         id="outlined-multiline"
         label="Type topic text here"
-        inputRef={textRef}
-        onChange={handleChangeInputs}
+        onChange={e => handleText(e)}
         multiline
         rows={7}
         variant="outlined"

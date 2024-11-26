@@ -1,5 +1,5 @@
 import { Box, Button, TextField } from '@mui/material'
-import { useRef, useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 
 import { TCommentTopic } from '@/types/topic'
 
@@ -16,17 +16,23 @@ export const AddComment: React.FC<TAddCommentProps> = ({
 }: TAddCommentProps) => {
   const [disabledButtonSend, setDisabledButtonSend] = useState(true)
 
-  const commentRef = useRef<HTMLTextAreaElement>(null)
+  const [comment, setComment] = useState<string>()
 
-  const handleCommentValue = () => {
-    setDisabledButtonSend(Number(commentRef.current?.value.trim().length) < 1)
+  const handleCommentValue = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const newComment = e.target.value
+
+    setComment(newComment)
+
+    setDisabledButtonSend(Number(newComment.trim().length) < 1)
   }
 
   const handleAddComment = () => {
-    if (commentRef.current) {
+    if (comment) {
       onAddComment({
         id: ++lastCommentId,
-        text: commentRef.current.value.trim(),
+        text: comment.trim(),
         topicId: currentTopicId,
       })
     }
@@ -41,7 +47,6 @@ export const AddComment: React.FC<TAddCommentProps> = ({
       <Box display="flex" flexDirection="column" gap={2}>
         <TextField
           multiline
-          inputRef={commentRef}
           rows={4}
           onChange={handleCommentValue}
           variant="outlined"

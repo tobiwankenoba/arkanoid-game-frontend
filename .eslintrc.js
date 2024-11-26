@@ -51,6 +51,25 @@ module.exports = {
   ],
   rules: {
     '@typescript-eslint/ban-ts-comment': 1,
+    '@typescript-eslint/naming-convention': [
+      'error',
+      {
+        selector: 'interface',
+        format: ['PascalCase'],
+        custom: {
+          regex: '^I[A-Z]',
+          match: true,
+        },
+      },
+      {
+        selector: 'typeAlias',
+        format: ['PascalCase'],
+        custom: {
+          regex: '^T[A-Z]',
+          match: true,
+        },
+      },
+    ],
     'react/jsx-curly-brace-presence': [
       'error',
       {
