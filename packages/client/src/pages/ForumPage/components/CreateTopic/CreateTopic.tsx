@@ -55,9 +55,9 @@ export const CreateTopic: React.FC<TCreateTopicProps> = ({
   }
 
   return (
-    <Box display="flex" flexDirection="column" gap={3}>
+    <Box component="form" display="flex" flexDirection="column" gap={3}>
       <TextField
-        onChange={e => handleTitle(e)}
+        onChange={handleTitle}
         id="outlined-basic"
         label="Title"
         variant="outlined"
@@ -65,7 +65,7 @@ export const CreateTopic: React.FC<TCreateTopicProps> = ({
       <TextField
         id="outlined-multiline"
         label="Type topic text here"
-        onChange={e => handleText(e)}
+        onChange={handleText}
         multiline
         rows={7}
         variant="outlined"

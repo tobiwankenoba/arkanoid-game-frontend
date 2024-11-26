@@ -8,8 +8,9 @@ import { MOCK_FORUM_TOPICS } from '@/constants/mockForumTopics'
 import { useToggleState } from '@/hooks/useToggleState'
 import { TTopic } from '@/types/topic'
 
+import { DrawerNav } from '../../components/DrawerNav'
+
 import { CreateTopic } from './components/CreateTopic'
-import { DrawerNav } from './components/DrawerNav'
 import { TopicItem } from './components/TopicItem'
 
 export const ForumPage: React.FC = () => {

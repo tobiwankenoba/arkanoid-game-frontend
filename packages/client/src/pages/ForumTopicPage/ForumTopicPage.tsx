@@ -8,7 +8,7 @@ import { MOCK_COMMENTS_FORUM } from '@/constants/mockCommentsForum'
 import { MOCK_FORUM_TOPICS } from '@/constants/mockForumTopics'
 import { TCommentTopic, TTopic } from '@/types/topic'
 
-import { DrawerNav } from '../ForumPage/components/DrawerNav'
+import { DrawerNav } from '../../components/DrawerNav'
 
 import { AddComment } from './components/AddComment'
 import { Comments } from './components/Comments'

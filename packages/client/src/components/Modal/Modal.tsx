@@ -13,6 +13,7 @@ const style = {
   borderRadius: 2,
   boxShadow: 4,
   p: 4,
+  backgroundColor: 'white',
 }
 
 export const ModalComponent = (props: TModalComponentProps) => {
@@ -20,9 +21,7 @@ export const ModalComponent = (props: TModalComponentProps) => {
 
   return (
     <Modal {...{ open, onClose }}>
-      <Box sx={{ ...style, height, width, backgroundColor: 'white' }}>
-        {children}
-      </Box>
+      <Box sx={{ ...style, height, width }}>{children}</Box>
     </Modal>
   )
 }

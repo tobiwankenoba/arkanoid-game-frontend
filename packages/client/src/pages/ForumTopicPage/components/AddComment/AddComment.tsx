@@ -44,7 +44,7 @@ export const AddComment: React.FC<TAddCommentProps> = ({
       flexDirection="column"
       sx={{ width: '100%' }}
       maxWidth={600}>
-      <Box display="flex" flexDirection="column" gap={2}>
+      <Box component="form" display="flex" flexDirection="column" gap={2}>
         <TextField
           multiline
           rows={4}

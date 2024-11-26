@@ -3,11 +3,11 @@ import { Navigate } from 'react-router-dom'
 
 import { ROUTES } from '@/constants/routes'
 
-interface PrivateRouteProps {
+interface IPrivateRouteProps {
   children: React.ReactNode
 }
 
-export const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
+export const PrivateRoute: React.FC<IPrivateRouteProps> = ({ children }) => {
   const isAuthenticated = localStorage.getItem('token')
 
   if (!isAuthenticated) {
