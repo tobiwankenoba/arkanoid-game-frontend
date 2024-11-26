@@ -13,6 +13,7 @@ import {
 import { FC } from 'react'
 import { NavLink } from 'react-router-dom'
 
+import { WIDTH_DRAWER_WINDOW } from '@/constants/forum'
 import { TForumNavLink } from '@/types/forum'
 
 interface IDrawerNavProps {
@@ -24,21 +25,24 @@ export const DrawerNav: FC<IDrawerNavProps> = ({ onOpenModal, links }) => {
   return (
     <Box
       component="nav"
-      sx={{ width: { sm: 260 }, flexShrink: { sm: 0 } }}
+      sx={{ width: { sm: WIDTH_DRAWER_WINDOW }, flexShrink: { sm: 0 } }}
       aria-label="mailbox folders">
       <Drawer
         variant="permanent"
         open
         sx={{
           display: 'block',
-          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 260 },
+          '& .MuiDrawer-paper': {
+            boxSizing: 'border-box',
+            width: WIDTH_DRAWER_WINDOW,
+          },
         }}>
         <div>
-          <Toolbar children={'Navigation'} />
+          <Toolbar>Navigation</Toolbar>
           <Divider />
           <List>
-            {links.map(({ title, url, Icon }) => (
-              <NavLink to={url}>
+            {links.map(({ title, url, Icon }, index) => (
+              <NavLink to={url} key={index}>
                 <ListItem key={title} disablePadding>
                   <ListItemButton>
                     <ListItemIcon>
@@ -58,7 +62,7 @@ export const DrawerNav: FC<IDrawerNavProps> = ({ onOpenModal, links }) => {
                   <ListItemIcon>
                     <AddCircleOutlineIcon />
                   </ListItemIcon>
-                  <ListItemText primary={'Add topic'} />
+                  <ListItemText primary="Add topic" />
                 </ListItemButton>
               </List>
             </>

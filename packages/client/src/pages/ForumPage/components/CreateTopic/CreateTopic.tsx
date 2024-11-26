@@ -13,7 +13,7 @@ export const CreateTopic: React.FC<CreateTopicProps> = ({
   onAddTopic,
   onToggleModalVisible,
   lastTopicId,
-}) => {
+}: CreateTopicProps) => {
   const [createButtonDisabled, setCreateButtonDisabled] = useState(true)
 
   const titleRef = useRef<HTMLInputElement>(null)
@@ -40,7 +40,7 @@ export const CreateTopic: React.FC<CreateTopicProps> = ({
   }
 
   return (
-    <Box display={'flex'} flexDirection={'column'} gap={3}>
+    <Box display="flex" flexDirection="column" gap={3}>
       <TextField
         inputRef={titleRef}
         onChange={handleChangeInputs}
@@ -57,7 +57,7 @@ export const CreateTopic: React.FC<CreateTopicProps> = ({
         rows={7}
         variant="outlined"
       />
-      <Box display={'flex'} justifyContent={'flex-end'} gap={2}>
+      <Box display="flex" justifyContent="flex-end" gap={2}>
         <Button
           variant="contained"
           color="error"

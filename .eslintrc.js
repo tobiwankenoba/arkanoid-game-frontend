@@ -8,6 +8,7 @@ module.exports = {
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'prettier',
+    'plugin:react/recommended',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -21,28 +22,42 @@ module.exports = {
         'import/order': [
           2,
           {
-            groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
+            groups: [
+              'builtin',
+              'external',
+              'internal',
+              'parent',
+              'sibling',
+              'index',
+            ],
             'newlines-between': 'always',
             pathGroups: [
               {
                 pattern: '@/**',
                 group: 'internal',
-
               },
               {
                 pattern: '@mui/**',
                 group: 'external',
-              }
+              },
             ],
             alphabetize: {
-              order: 'asc'
-            }
-          }
-        ]
-      }
-    }
+              order: 'asc',
+            },
+          },
+        ],
+      },
+    },
   ],
   rules: {
     '@typescript-eslint/ban-ts-comment': 1,
+    'react/jsx-curly-brace-presence': [
+      'error',
+      {
+        props: 'never',
+        children: 'ignore',
+      },
+    ],
+    'react/react-in-jsx-scope': 'off',
   },
 }

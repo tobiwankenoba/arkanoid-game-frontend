@@ -13,7 +13,7 @@ export const AddComment: React.FC<TAddCommentProps> = ({
   onAddComment,
   lastCommentId,
   currentTopicId,
-}) => {
+}: TAddCommentProps) => {
   const [disabledButtonSend, setDisabledButtonSend] = useState(true)
 
   const commentRef = useRef<HTMLTextAreaElement>(null)
@@ -34,18 +34,18 @@ export const AddComment: React.FC<TAddCommentProps> = ({
 
   return (
     <Box
-      display={'flex'}
-      flexDirection={'column'}
+      display="flex"
+      flexDirection="column"
       sx={{ width: '100%' }}
       maxWidth={600}>
-      <Box display={'flex'} flexDirection={'column'} gap={2}>
+      <Box display="flex" flexDirection="column" gap={2}>
         <TextField
           multiline
           inputRef={commentRef}
           rows={4}
           onChange={handleCommentValue}
           variant="outlined"
-          label={'Type here your comment'}
+          label="Type here your comment"
           sx={{ width: '100%' }}
         />
         <Button

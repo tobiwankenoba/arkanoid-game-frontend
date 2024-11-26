@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { DRAWER_NAVIGATION_LINKS_TOPIC_PAGE } from '@/constants/drawerNav'
+import { WIDTH_DRAWER_WINDOW } from '@/constants/forum'
 import { MOCK_COMMENTS_FORUM } from '@/constants/mockCommentsForum'
 import { MOCK_FORUM_TOPICS } from '@/constants/mockForumTopics'
 import { TCommentTopic, TTopic } from '@/types/topic'
@@ -29,18 +30,18 @@ export const ForumTopicPage: React.FC = () => {
   }
 
   return (
-    <Box display={'flex'}>
+    <Box display="flex">
       <DrawerNav links={DRAWER_NAVIGATION_LINKS_TOPIC_PAGE} />
       <Box
         component="main"
-        display={'flex'}
-        alignItems={'center'}
-        flexDirection={'column'}
+        display="flex"
+        alignItems="center"
+        flexDirection="column"
         gap={2}
         sx={{
           flexGrow: 1,
           p: 3,
-          width: { sm: `calc(100% - ${260}px)` },
+          width: { sm: `calc(100% - ${WIDTH_DRAWER_WINDOW}px)` },
         }}>
         <Topic {...currentTopic} />
         <AddComment

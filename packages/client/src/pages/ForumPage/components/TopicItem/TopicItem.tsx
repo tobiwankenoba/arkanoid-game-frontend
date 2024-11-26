@@ -12,7 +12,11 @@ import { TTopic } from '@/types/topic'
 
 type TTopicItemProps = TTopic
 
-export const TopicItem: React.FC<TTopicItemProps> = ({ title, text, id }) => {
+export const TopicItem: React.FC<TTopicItemProps> = ({
+  title,
+  text,
+  id,
+}: TTopicItemProps) => {
   return (
     <ListItem
       sx={{
@@ -28,8 +32,8 @@ export const TopicItem: React.FC<TTopicItemProps> = ({ title, text, id }) => {
           <ListItemAvatar sx={{ height: 54, width: 54 }}>
             <AccountCircleIcon sx={{ height: 54, width: 54 }} />
           </ListItemAvatar>
-          <Box display={'flex'} flexDirection={'column'}>
-            <Box display={'flex'} gap={1}>
+          <Box display="flex" flexDirection="column">
+            <Box display="flex" gap={1}>
               <Typography>{id}:</Typography>
               <Typography>{title}</Typography>
             </Box>

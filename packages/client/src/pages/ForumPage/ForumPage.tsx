@@ -30,8 +30,8 @@ export const ForumPage: React.FC = () => {
       />
       <Box
         component="main"
-        display={'flex'}
-        justifyContent={'center'}
+        display="flex"
+        justifyContent="center"
         sx={{
           flexGrow: 1,
           p: 3,
@@ -46,15 +46,13 @@ export const ForumPage: React.FC = () => {
       <ModalComponent
         width={600}
         open={modalVisible}
-        onClose={toggleModalVisible}
-        children={
-          <CreateTopic
-            lastTopicId={lastTopicId}
-            onToggleModalVisible={toggleModalVisible}
-            onAddTopic={handleTopics}
-          />
-        }
-      />
+        onClose={toggleModalVisible}>
+        <CreateTopic
+          lastTopicId={lastTopicId}
+          onToggleModalVisible={toggleModalVisible}
+          onAddTopic={handleTopics}
+        />
+      </ModalComponent>
     </Box>
   )
 }

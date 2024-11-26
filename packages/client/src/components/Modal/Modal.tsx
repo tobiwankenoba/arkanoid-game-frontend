@@ -19,13 +19,10 @@ export const ModalComponent = (props: TModalComponentProps) => {
   const { width = 400, height = 400, open, onClose, children } = props
 
   return (
-    <Modal
-      {...{ open, onClose }}
-      children={
-        <Box sx={{ ...style, height, width, backgroundColor: 'white' }}>
-          {children}
-        </Box>
-      }
-    />
+    <Modal {...{ open, onClose }}>
+      <Box sx={{ ...style, height, width, backgroundColor: 'white' }}>
+        {children}
+      </Box>
+    </Modal>
   )
 }
