@@ -1,4 +1,3 @@
-import { Button } from '@mui/material'
 import { useEffect } from 'react'
 import { RouterProvider } from 'react-router-dom'
 
@@ -19,8 +18,6 @@ function App() {
   return (
     <div className="App">
       <RouterProvider router={router} />
-      Вот тут будет жить ваше приложение :)
-      <Button variant="contained">Hello</Button>
     </div>
   )
 }
