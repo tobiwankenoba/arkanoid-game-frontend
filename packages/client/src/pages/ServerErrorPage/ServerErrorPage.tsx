@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from '@mui/material'
+import { Button, Container, Typography } from '@mui/material'
 
 export const ServerErrorPage: React.FC = () => {
   const handleReloadPage = () => {
@@ -6,12 +6,14 @@ export const ServerErrorPage: React.FC = () => {
   }
 
   return (
-    <Box
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      flexDirection="column"
-      height="100vh">
+    <Container
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        height: '100vh',
+      }}>
       <Typography variant="h1">500</Typography>
       <Typography gutterBottom variant="h4">
         Internal Server Error
@@ -19,6 +21,6 @@ export const ServerErrorPage: React.FC = () => {
       <Button onClick={handleReloadPage} variant="contained">
         Try reload this page
       </Button>
-    </Box>
+    </Container>
   )
 }
