@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react'
 
-import Game from '@/GameEngine/Game'
+import Game from '../../../../GameEngine/Game'
 
 interface ICanvasProps {
   width: number
