@@ -71,7 +71,7 @@ export const LoginPage: React.FC = () => {
         </Button>
         <Typography variant="body2" textAlign="center" mt={2}>
           Нет аккаунта?{' '}
-          <Link href="/signup" underline="hover">
+          <Link href="/register" underline="hover">
             Создать
           </Link>
         </Typography>
