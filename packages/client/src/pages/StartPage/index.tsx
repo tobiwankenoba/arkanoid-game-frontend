@@ -56,7 +56,6 @@ export const StartGame = () => {
                 backgroundColor: 'rgba(85, 85, 85, 0.6)',
               }}>
               <CountdownCircleTimer
-                // @ts-ignore
                 onComplete={() => navigate(ROUTES.game)}
                 duration={5}
                 size={200}
