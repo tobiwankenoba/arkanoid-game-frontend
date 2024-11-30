@@ -60,7 +60,7 @@ export const StartGame = () => {
                 duration={5}
                 size={200}
                 strokeWidth={20}
-                colors={'#DADADA'}
+                colors="#DADADA"
                 isPlaying={isCountStarted}>
                 {({ remainingTime }) => remainingTime}
               </CountdownCircleTimer>
