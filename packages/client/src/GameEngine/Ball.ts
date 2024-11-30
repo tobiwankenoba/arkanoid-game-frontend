@@ -47,7 +47,6 @@ export default class Ball {
       )
         this.dx = -this.dx
       if (this.y - this.radius <= 0) this.dy = -this.dy
-      // if (this.y - this.radius >= this.canvas.height) this.stop()
       if (this.collided) {
         this.dy = -Math.abs(this.dy)
         this.collided = false // Сбрасываем флаг столкновения

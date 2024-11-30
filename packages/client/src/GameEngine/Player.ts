@@ -38,9 +38,7 @@ export default class Player {
   }
 
   public draw() {
-    // this.ctx.beginPath();
     this.ctx.fillStyle = 'blue'
     this.ctx.fillRect(this.x, this.y, this.width, this.height)
-    // this.ctx.fillText(`x: ${this.x} y: ${this.y}`,this.x, this.y - 5)
   }
 }
