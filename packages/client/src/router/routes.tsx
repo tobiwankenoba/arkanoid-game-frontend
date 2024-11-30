@@ -1,6 +1,6 @@
 import { RouteObject } from 'react-router-dom'
 
-import { Layout } from '@/components'
+import { Layout } from '@/components/Layout'
 import { ROUTES } from '@/constants/routes'
 import { ForumPage } from '@/pages/ForumPage'
 import { ForumTopicPage } from '@/pages/ForumTopicPage'
