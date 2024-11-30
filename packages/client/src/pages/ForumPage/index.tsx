@@ -1,3 +1,1 @@
-export function ForumPage() {
-  return <h1>Forum page</h1>
-}
+export * from './ForumPage'

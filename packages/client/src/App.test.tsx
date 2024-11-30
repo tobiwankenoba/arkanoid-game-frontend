@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 
 import App from './App'
 
-const appContent = 'Вот тут будет жить ваше приложение :)'
+const appContent = 'Home Page!'
 
 // @ts-ignore
 global.fetch = jest.fn(() =>
