@@ -3,10 +3,11 @@ import {
   TextField,
   Button,
   Typography,
-  Link,
   Container,
+  Link,
 } from '@mui/material'
 import React, { useState } from 'react'
+import { Link as RouterLink } from 'react-router-dom'
 
 export const RegisterPage: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -115,8 +116,8 @@ export const RegisterPage: React.FC = () => {
           Sign Up
         </Button>
         <Typography variant="body2" textAlign="center" mt={2}>
-          Уже зарегистрированы?{' '}
-          <Link href="/login" underline="hover">
+          <span>Уже зарегистрированы? </span>
+          <Link component={RouterLink} to="/login" underline="hover">
             Войти
           </Link>
         </Typography>
