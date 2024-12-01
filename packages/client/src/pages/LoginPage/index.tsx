@@ -7,6 +7,7 @@ import {
   Container,
 } from '@mui/material'
 import React, { useState } from 'react'
+import { Link as RouterLink } from 'react-router-dom'
 
 export const LoginPage: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -71,7 +72,7 @@ export const LoginPage: React.FC = () => {
         </Button>
         <Typography variant="body2" textAlign="center" mt={2}>
           Нет аккаунта?{' '}
-          <Link href="/register" underline="hover">
+          <Link component={RouterLink} to="/register" underline="hover">
             Создать
           </Link>
         </Typography>
