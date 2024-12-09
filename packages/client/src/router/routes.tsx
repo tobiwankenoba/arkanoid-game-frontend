@@ -39,9 +39,9 @@ export const routes: RouteObject[] = [
       {
         path: ROUTES.profile,
         element: (
-          <PrivateRoute>
-            <ProfilePage />
-          </PrivateRoute>
+          // <PrivateRoute>
+          <ProfilePage />
+          // </PrivateRoute>
         ),
       },
       {
