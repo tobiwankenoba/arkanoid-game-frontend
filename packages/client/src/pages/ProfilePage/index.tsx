@@ -12,6 +12,7 @@ import {
   TextField,
 } from '@mui/material'
 import React, { useRef, useState } from 'react'
+import { useForm, Controller } from 'react-hook-form'
 
 const profileMock = {
   first_name: 'Илья',
@@ -22,7 +23,11 @@ const profileMock = {
 }
 
 export function ProfilePage() {
-  const [formData, setFormData] = useState({ ...profileMock })
+  const { control, handleSubmit, setValue, getValues } = useForm<
+    typeof profileMock
+  >({
+    defaultValues: profileMock,
+  })
   const [avatar, setAvatar] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [showPassword, setShowPassword] = useState({
@@ -56,13 +61,21 @@ export function ProfilePage() {
     }
   }
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData({
-      ...formData,
-      [name]: value,
-    })
-    console.log('Актуальные данные: ', formData)
+  const onSubmit = (data: typeof profileMock) => {
+    if (isDisabled) {
+      const isDataChanged = Object.keys(profileMock).some(
+        key =>
+          data[key as keyof typeof profileMock] !==
+          profileMock[key as keyof typeof profileMock]
+      )
+
+      if (!isDataChanged) {
+        console.log('Нету изменений.')
+        return
+      }
+
+      console.log('Отправление данных: ', data)
+    }
   }
 
   return (
@@ -75,7 +88,7 @@ export function ProfilePage() {
         }}>
         <Box
           component="form"
-          onSubmit={e => e.preventDefault()}
+          onSubmit={handleSubmit(onSubmit)}
           sx={{
             display: 'flex',
             flexDirection: 'column',
@@ -95,8 +108,8 @@ export function ProfilePage() {
               margin: '0 auto',
               cursor: 'pointer',
             }}
-            onClick={handleAvatarClick}></Avatar>
-          {/* Скрытый инпут для загрузки аватарки */}
+            onClick={handleAvatarClick}
+          />
           <input
             type="file"
             accept="image/*"
@@ -104,48 +117,51 @@ export function ProfilePage() {
             hidden
             onChange={handleAvatarChange}
           />
-          {/* ----------------------------------- */}
-          <TextField
-            label="Имя"
-            type="text"
-            id="first_name"
+          <Controller
             name="first_name"
-            value={formData.first_name}
-            onChange={handleInputChange}
-            fullWidth
-            disabled={isDisabled}
-            required
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Имя"
+                fullWidth
+                disabled={isDisabled}
+                required
+              />
+            )}
           />
-          <TextField
-            label="Фамилия"
-            type="text"
-            id="second_name"
+          <Controller
             name="second_name"
-            value={formData.second_name}
-            onChange={handleInputChange}
-            fullWidth
-            disabled={isDisabled}
-            required
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Фамилия"
+                fullWidth
+                disabled={isDisabled}
+                required
+              />
+            )}
           />
-          <TextField
-            label="Логин"
-            type="text"
-            id="login"
+          <Controller
             name="login"
-            value={formData.login}
-            onChange={handleInputChange}
-            fullWidth
-            disabled={isDisabled}
-            required
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Логин"
+                fullWidth
+                disabled={isDisabled}
+                required
+              />
+            )}
           />
           <FormControl variant="outlined">
             <InputLabel>Старый пароль</InputLabel>
             <OutlinedInput
-              value={formData.old_password}
-              onChange={handleInputChange}
+              value={getValues('old_password')}
+              onChange={e => setValue('old_password', e.target.value)}
               disabled={isDisabled}
-              id="old_password"
-              name="old_password"
               type={showPassword.old_password ? 'text' : 'password'}
               endAdornment={
                 <InputAdornment position="end">
@@ -171,11 +187,9 @@ export function ProfilePage() {
           <FormControl variant="outlined">
             <InputLabel>Новый пароль</InputLabel>
             <OutlinedInput
-              value={formData.new_password}
-              onChange={handleInputChange}
+              value={getValues('new_password')}
+              onChange={e => setValue('new_password', e.target.value)}
               disabled={isDisabled}
-              id="new_password"
-              name="new_password"
               type={showPassword.new_password ? 'text' : 'password'}
               endAdornment={
                 <InputAdornment position="end">
@@ -203,7 +217,7 @@ export function ProfilePage() {
             variant="contained"
             color="primary"
             fullWidth
-            onClick={() => handleToggleDisabled()}>
+            onClick={handleToggleDisabled}>
             {isDisabled ? 'Изменить профиль' : 'Сохранить изменения'}
           </Button>
         </Box>
