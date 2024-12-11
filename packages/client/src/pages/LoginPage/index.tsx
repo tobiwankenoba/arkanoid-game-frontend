@@ -6,34 +6,28 @@ import {
   Link,
   Container,
 } from '@mui/material'
-import React, { useState } from 'react'
+import React from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 
+import { useForm } from '@/hooks/useForm'
+
 export const LoginPage: React.FC = () => {
-  const [formData, setFormData] = useState({
-    login: '',
-    password: '',
+  const { values, errors, handleChange, handleSubmit } = useForm({
+    initialValues: {
+      login: '',
+      password: '',
+    },
   })
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData({
-      ...formData,
-      [name]: value,
-    })
-  }
-
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault()
-    // Здесь можно обработать вход в систему
-    console.log(formData)
+  const onSubmit = (data: typeof values) => {
+    console.log('Отправка данных:', data)
   }
 
   return (
     <Container maxWidth="xs">
       <Box
         component="form"
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         sx={{
           display: 'flex',
           flexDirection: 'column',
@@ -52,8 +46,10 @@ export const LoginPage: React.FC = () => {
           type="text"
           id="login"
           name="login"
-          value={formData.login}
+          value={values.login}
           onChange={handleChange}
+          error={!!errors.login}
+          helperText={errors.login}
           fullWidth
           required
         />
@@ -62,8 +58,10 @@ export const LoginPage: React.FC = () => {
           type="password"
           id="password"
           name="password"
-          value={formData.password}
+          value={values.password}
           onChange={handleChange}
+          error={!!errors.password}
+          helperText={errors.password}
           fullWidth
           required
         />
