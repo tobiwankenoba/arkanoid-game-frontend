@@ -37,9 +37,11 @@ export const Header = () => {
           {isLoggedIn ? (
             <Avatar />
           ) : (
-            <Button variant="outlined" color="error">
-              Войти
-            </Button>
+            <NavLink to={ROUTES.login}>
+              <Button variant="outlined" color="error">
+                Войти
+              </Button>
+            </NavLink>
           )}
         </Grid2>
       </Box>

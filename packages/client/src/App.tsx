@@ -1,10 +1,14 @@
 import { useEffect } from 'react'
+import { Provider as ReduxProvider } from 'react-redux'
 import { RouterProvider } from 'react-router-dom'
 
 import './App.css'
 import { router } from './router/router'
+import { createReduxStore } from './utils/redux'
 
 function App() {
+  const store = createReduxStore()
+
   useEffect(() => {
     const fetchServerData = async () => {
       const url = `http://localhost:${__SERVER_PORT__}`
@@ -17,7 +21,9 @@ function App() {
   }, [])
   return (
     <div className="App">
-      <RouterProvider router={router} />
+      <ReduxProvider store={store}>
+        <RouterProvider router={router} />
+      </ReduxProvider>
     </div>
   )
 }
