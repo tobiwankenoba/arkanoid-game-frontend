@@ -10,7 +10,7 @@ import React from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 
 import { useForm } from '@/hooks/useForm'
-import { validationSchema } from '@/hooks/useForm/validationSchema'
+import { defaultSchema } from '@/hooks/useForm/schemas/defaultSchema'
 
 export const LoginPage: React.FC = () => {
   const { values, errors, handleChange, handleSubmit } = useForm({
@@ -18,7 +18,7 @@ export const LoginPage: React.FC = () => {
       login: '',
       password: '',
     },
-    validationSchema,
+    validationSchema: defaultSchema,
   })
 
   const onSubmit = (data: typeof values) => {

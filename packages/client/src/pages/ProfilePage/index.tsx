@@ -5,6 +5,7 @@ import {
   Button,
   Container,
   FormControl,
+  FormHelperText,
   IconButton,
   InputAdornment,
   InputLabel,
@@ -12,29 +13,28 @@ import {
   TextField,
 } from '@mui/material'
 import React, { useRef, useState } from 'react'
-import { useForm, Controller } from 'react-hook-form'
 
-const profileMock = {
-  first_name: 'Илья',
-  second_name: 'Котовский',
-  login: 'ilya.dev__',
-  old_password: '123qwerty',
-  new_password: '123456qwerty',
-}
+import { useForm } from '@/hooks/useForm'
+import { profileValidationSchema } from '@/hooks/useForm/schemas/profileSchema'
 
 export function ProfilePage() {
-  const { control, handleSubmit, setValue, getValues } = useForm<
-    typeof profileMock
-  >({
-    defaultValues: profileMock,
+  const { values, errors, handleChange, handleSubmit } = useForm({
+    initialValues: {
+      first_name: 'Илья',
+      second_name: 'Kотовский',
+      login: 'ilya-dev',
+      old_password: '1209Qwee',
+      new_password: '1209Qwerty',
+    },
+    validationSchema: profileValidationSchema,
   })
   const [avatar, setAvatar] = useState<string | null>(null)
+  const [isDisabled, setIsDisabled] = useState(true)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [showPassword, setShowPassword] = useState({
     old_password: false,
     new_password: false,
   })
-  const [isDisabled, setIsDisabled] = useState(true)
 
   const handleClickShowPassword = (field: keyof typeof showPassword) => {
     setShowPassword(prev => ({
@@ -61,21 +61,12 @@ export function ProfilePage() {
     }
   }
 
-  const onSubmit = (data: typeof profileMock) => {
+  const onSubmit = (data: typeof values) => {
     if (isDisabled) {
-      const isDataChanged = Object.keys(profileMock).some(
-        key =>
-          data[key as keyof typeof profileMock] !==
-          profileMock[key as keyof typeof profileMock]
-      )
-
-      if (!isDataChanged) {
-        console.log('Нету изменений.')
-        return
-      }
-
-      console.log('Отправление данных: ', data)
+      console.log('Нет изменений для сохранения.')
+      return
     }
+    console.log('Отправка данных:', data)
   }
 
   return (
@@ -117,63 +108,61 @@ export function ProfilePage() {
             hidden
             onChange={handleAvatarChange}
           />
-          <Controller
+          <TextField
+            label="Имя"
+            id="first_name"
             name="first_name"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Имя"
-                fullWidth
-                disabled={isDisabled}
-                required
-              />
-            )}
+            value={values.first_name}
+            onChange={handleChange}
+            error={!!errors.first_name}
+            helperText={errors.first_name}
+            fullWidth
+            required
+            disabled={isDisabled}
           />
-          <Controller
+          <TextField
+            label="Фамилия"
+            id="second_name"
             name="second_name"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Фамилия"
-                fullWidth
-                disabled={isDisabled}
-                required
-              />
-            )}
+            value={values.second_name}
+            onChange={handleChange}
+            error={!!errors.second_name}
+            helperText={errors.second_name}
+            fullWidth
+            required
+            disabled={isDisabled}
           />
-          <Controller
+          <TextField
+            label="Логин"
+            id="login"
             name="login"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Логин"
-                fullWidth
-                disabled={isDisabled}
-                required
-              />
-            )}
+            value={values.login}
+            onChange={handleChange}
+            error={!!errors.login}
+            helperText={errors.login}
+            fullWidth
+            required
+            disabled={isDisabled}
           />
-          <FormControl variant="outlined">
-            <InputLabel>Старый пароль</InputLabel>
+          <FormControl
+            fullWidth
+            variant="outlined"
+            error={!!errors.old_password}>
+            <InputLabel htmlFor="old_password">Старый пароль</InputLabel>
             <OutlinedInput
-              value={getValues('old_password')}
-              onChange={e => setValue('old_password', e.target.value)}
-              disabled={isDisabled}
+              id="old_password"
+              name="old_password"
               type={showPassword.old_password ? 'text' : 'password'}
+              value={values.old_password}
+              onChange={handleChange}
+              disabled={isDisabled}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
-                    aria-label={
-                      showPassword.old_password
-                        ? 'hide the old password'
-                        : 'display the old password'
-                    }
+                    aria-label="toggle password visibility"
                     onClick={() => handleClickShowPassword('old_password')}
                     edge="end">
-                    {isDisabled ? null : showPassword.old_password ? (
+                    {showPassword.old_password ? (
                       <VisibilityOff />
                     ) : (
                       <Visibility />
@@ -183,25 +172,29 @@ export function ProfilePage() {
               }
               label="Старый пароль"
             />
+            {!!errors.old_password && (
+              <FormHelperText>{errors.old_password}</FormHelperText>
+            )}
           </FormControl>
-          <FormControl variant="outlined">
-            <InputLabel>Новый пароль</InputLabel>
+          <FormControl
+            fullWidth
+            variant="outlined"
+            error={!!errors.new_password}>
+            <InputLabel htmlFor="new_password">Новый пароль</InputLabel>
             <OutlinedInput
-              value={getValues('new_password')}
-              onChange={e => setValue('new_password', e.target.value)}
-              disabled={isDisabled}
+              id="new_password"
+              name="new_password"
               type={showPassword.new_password ? 'text' : 'password'}
+              value={values.new_password}
+              onChange={handleChange}
+              disabled={isDisabled}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
-                    aria-label={
-                      showPassword.new_password
-                        ? 'hide the new password'
-                        : 'display the new password'
-                    }
+                    aria-label="toggle password visibility"
                     onClick={() => handleClickShowPassword('new_password')}
                     edge="end">
-                    {isDisabled ? null : showPassword.new_password ? (
+                    {showPassword.new_password ? (
                       <VisibilityOff />
                     ) : (
                       <Visibility />
@@ -211,6 +204,9 @@ export function ProfilePage() {
               }
               label="Новый пароль"
             />
+            {!!errors.new_password && (
+              <FormHelperText>{errors.new_password}</FormHelperText>
+            )}
           </FormControl>
           <Button
             type="submit"
