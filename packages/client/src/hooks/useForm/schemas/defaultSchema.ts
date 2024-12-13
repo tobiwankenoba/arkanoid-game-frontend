@@ -1,6 +1,6 @@
 import * as yup from 'yup'
 
-export const validationSchema = yup.object().shape({
+export const defaultSchema = yup.object().shape({
   first_name: yup
     .string()
     .matches(
