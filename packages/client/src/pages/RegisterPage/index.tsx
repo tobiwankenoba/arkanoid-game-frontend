@@ -6,38 +6,34 @@ import {
   Container,
   Link,
 } from '@mui/material'
-import React, { useState } from 'react'
+import React from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 
+import { useForm } from '@/hooks/useForm'
+import { validationSchema } from '@/hooks/useForm/validationSchema'
+
 export const RegisterPage: React.FC = () => {
-  const [formData, setFormData] = useState({
-    first_name: '',
-    second_name: '',
-    login: '',
-    email: '',
-    password: '',
-    phone: '',
+  const { values, errors, handleChange, handleSubmit } = useForm({
+    initialValues: {
+      first_name: '',
+      second_name: '',
+      login: '',
+      email: '',
+      password: '',
+      phone: '',
+    },
+    validationSchema,
   })
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData({
-      ...formData,
-      [name]: value,
-    })
-  }
-
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault()
-    // Здесь можно обработать регистрацию
-    console.log(formData)
+  const onSubmit = (data: typeof values) => {
+    console.log('Отправка данных:', data)
   }
 
   return (
     <Container maxWidth="xs">
       <Box
         component="form"
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         sx={{
           display: 'flex',
           flexDirection: 'column',
@@ -56,8 +52,10 @@ export const RegisterPage: React.FC = () => {
           type="text"
           id="first_name"
           name="first_name"
-          value={formData.first_name}
+          value={values.first_name}
           onChange={handleChange}
+          error={!!errors.first_name}
+          helperText={errors.first_name}
           fullWidth
           required
         />
@@ -66,8 +64,10 @@ export const RegisterPage: React.FC = () => {
           type="text"
           id="second_name"
           name="second_name"
-          value={formData.second_name}
+          value={values.second_name}
           onChange={handleChange}
+          error={!!errors.second_name}
+          helperText={errors.second_name}
           fullWidth
           required
         />
@@ -76,8 +76,10 @@ export const RegisterPage: React.FC = () => {
           type="text"
           id="login"
           name="login"
-          value={formData.login}
+          value={values.login}
           onChange={handleChange}
+          error={!!errors.login}
+          helperText={errors.login}
           fullWidth
           required
         />
@@ -86,8 +88,10 @@ export const RegisterPage: React.FC = () => {
           type="text"
           id="email"
           name="email"
-          value={formData.email}
+          value={values.email}
           onChange={handleChange}
+          error={!!errors.email}
+          helperText={errors.email}
           fullWidth
           required
         />
@@ -96,8 +100,10 @@ export const RegisterPage: React.FC = () => {
           type="password"
           id="password"
           name="password"
-          value={formData.password}
+          value={values.password}
           onChange={handleChange}
+          error={!!errors.password}
+          helperText={errors.password}
           fullWidth
           required
         />
@@ -107,8 +113,10 @@ export const RegisterPage: React.FC = () => {
           type="text"
           id="phone"
           name="phone"
-          value={formData.phone}
+          value={values.phone}
           onChange={handleChange}
+          error={!!errors.phone}
+          helperText={errors.phone}
           fullWidth
           required
         />
