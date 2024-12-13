@@ -1,13 +1,14 @@
 import { useState } from 'react'
+import * as Yup from 'yup'
 
-import { validateField } from '@/hooks/useForm/validateField'
-
-interface IUseFormOptions<T> {
+interface IUseFormOptions<T extends Record<string, any>> {
   initialValues: T
+  validationSchema: Yup.ObjectSchema<Yup.InferType<Yup.ObjectSchema<T>>>
 }
 
 export const useForm = <T extends Record<string, string>>({
   initialValues,
+  validationSchema,
 }: IUseFormOptions<T>) => {
   const [values, setValues] = useState<T>(initialValues)
   const [errors, setErrors] = useState<Record<string, string>>({})
@@ -17,36 +18,44 @@ export const useForm = <T extends Record<string, string>>({
 
     setValues(prevValues => ({ ...prevValues, [name]: value }))
 
-    const validation = validateField(name, value)
-    if (!validation.isValid) {
-      setErrors(prevErrors => ({ ...prevErrors, [name]: validation.message }))
-    } else {
+    try {
+      validationSchema.validateSyncAt(name, { ...values, [name]: value })
       setErrors(prevErrors => {
         const newErrors = { ...prevErrors }
         delete newErrors[name]
         return newErrors
       })
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        setErrors(prevErrors => ({ ...prevErrors, [name]: err.message }))
+      }
     }
   }
 
-  const validateForm = () => {
-    const newErrors: Record<string, string> = {}
-    Object.entries(values).forEach(([name, value]) => {
-      const validation = validateField(name, value)
-      if (!validation.isValid) {
-        newErrors[name] = validation.message
+  const validateForm = async () => {
+    try {
+      await validationSchema.validate(values, { abortEarly: false })
+      setErrors({})
+      return true
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        const newErrors: Record<string, string> = {}
+        err.inner.forEach(error => {
+          if (error.path) {
+            newErrors[error.path] = error.message
+          }
+        })
+        setErrors(newErrors)
       }
-    })
-
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
+      return false
+    }
   }
 
   const handleSubmit =
-    (onSubmit: (values: T) => void) => (e: React.FormEvent) => {
+    (onSubmit: (values: T) => void) => async (e: React.FormEvent) => {
       e.preventDefault()
 
-      if (validateForm()) {
+      if (await validateForm()) {
         onSubmit(values)
       }
     }
