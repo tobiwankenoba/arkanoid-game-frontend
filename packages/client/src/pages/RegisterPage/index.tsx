@@ -7,10 +7,11 @@ import {
   Link,
 } from '@mui/material'
 import React from 'react'
-import { Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink, useNavigate } from 'react-router-dom'
 
+import { signUp } from '@/api/auth'
 import { useForm } from '@/hooks/useForm'
-import { defaultSchema } from '@/hooks/useForm/schemas/defaultSchema'
+import { signUpValidationSchema } from '@/hooks/useForm/schemas/signUpValidationSchema'
 
 export const RegisterPage: React.FC = () => {
   const { values, errors, handleChange, handleSubmit } = useForm({
@@ -22,11 +23,21 @@ export const RegisterPage: React.FC = () => {
       password: '',
       phone: '',
     },
-    validationSchema: defaultSchema,
+    validationSchema: signUpValidationSchema,
   })
+  const navigate = useNavigate()
 
-  const onSubmit = (data: typeof values) => {
-    console.log('Отправка данных:', data)
+  const onSubmit = async (formValues: typeof values) => {
+    console.log('Отправка данных:', formValues)
+
+    try {
+      const register = await signUp(formValues)
+      if (register.status === 200) {
+        navigate('/start')
+      }
+    } catch (error) {
+      console.error('Ошибка регистрации:', error)
+    }
   }
 
   return (
@@ -58,6 +69,11 @@ export const RegisterPage: React.FC = () => {
           helperText={errors.first_name}
           fullWidth
           required
+          slotProps={{
+            inputLabel: {
+              shrink: true,
+            },
+          }}
         />
         <TextField
           label="Фамилия"
@@ -70,6 +86,11 @@ export const RegisterPage: React.FC = () => {
           helperText={errors.second_name}
           fullWidth
           required
+          slotProps={{
+            inputLabel: {
+              shrink: true,
+            },
+          }}
         />
         <TextField
           label="Логин"
@@ -82,6 +103,11 @@ export const RegisterPage: React.FC = () => {
           helperText={errors.login}
           fullWidth
           required
+          slotProps={{
+            inputLabel: {
+              shrink: true,
+            },
+          }}
         />
         <TextField
           label="Почта"
@@ -94,6 +120,11 @@ export const RegisterPage: React.FC = () => {
           helperText={errors.email}
           fullWidth
           required
+          slotProps={{
+            inputLabel: {
+              shrink: true,
+            },
+          }}
         />
         <TextField
           label="Пароль"
@@ -106,6 +137,11 @@ export const RegisterPage: React.FC = () => {
           helperText={errors.password}
           fullWidth
           required
+          slotProps={{
+            inputLabel: {
+              shrink: true,
+            },
+          }}
         />
 
         <TextField
@@ -119,6 +155,11 @@ export const RegisterPage: React.FC = () => {
           helperText={errors.phone}
           fullWidth
           required
+          slotProps={{
+            inputLabel: {
+              shrink: true,
+            },
+          }}
         />
         <Button type="submit" variant="contained" color="primary" fullWidth>
           Sign Up
