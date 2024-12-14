@@ -6,11 +6,12 @@ import {
   Link,
   Container,
 } from '@mui/material'
-import React from 'react'
-import { Link as RouterLink } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Link as RouterLink, useNavigate } from 'react-router-dom'
 
+import { signIn } from '@/api/auth'
 import { useForm } from '@/hooks/useForm'
-import { defaultSchema } from '@/hooks/useForm/schemas/defaultSchema'
+import { loginValidationSchema } from '@/hooks/useForm/schemas/loginValidationSchema'
 
 export const LoginPage: React.FC = () => {
   const { values, errors, handleChange, handleSubmit } = useForm({
@@ -18,11 +19,33 @@ export const LoginPage: React.FC = () => {
       login: '',
       password: '',
     },
-    validationSchema: defaultSchema,
+    validationSchema: loginValidationSchema,
   })
 
-  const onSubmit = (data: typeof values) => {
-    console.log('Отправка данных:', data)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const isAuthenticated = sessionStorage.getItem('token')
+
+    if (isAuthenticated) {
+      setTimeout(() => {
+        navigate('/start')
+      }, 2000)
+    }
+  }, [])
+
+  const onSubmit = async (formValues: { login: string; password: string }) => {
+    try {
+      const authentication = await signIn(formValues)
+
+      if (authentication === 200) {
+        navigate('/start')
+      } else {
+        console.error('Ошибка авторизации')
+      }
+    } catch (error) {
+      console.error('Ошибка авторизации:', error)
+    }
   }
 
   return (
@@ -30,6 +53,7 @@ export const LoginPage: React.FC = () => {
       <Box
         component="form"
         onSubmit={handleSubmit(onSubmit)}
+        autoComplete="off"
         sx={{
           display: 'flex',
           flexDirection: 'column',
@@ -54,7 +78,14 @@ export const LoginPage: React.FC = () => {
           helperText={errors.login}
           fullWidth
           required
+          autoComplete="off"
+          slotProps={{
+            inputLabel: {
+              shrink: true,
+            },
+          }}
         />
+
         <TextField
           label="Пароль"
           type="password"
@@ -66,7 +97,14 @@ export const LoginPage: React.FC = () => {
           helperText={errors.password}
           fullWidth
           required
+          autoComplete="off"
+          slotProps={{
+            inputLabel: {
+              shrink: true,
+            },
+          }}
         />
+
         <Button type="submit" variant="contained" color="primary" fullWidth>
           Войти
         </Button>

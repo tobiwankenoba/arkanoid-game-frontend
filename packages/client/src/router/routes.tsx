@@ -34,7 +34,11 @@ export const routes: RouteObject[] = [
       },
       {
         path: ROUTES.leaderboard,
-        element: <LeaderboardPage />,
+        element: (
+          <PrivateRoute>
+            <LeaderboardPage />,
+          </PrivateRoute>
+        ),
       },
       {
         path: ROUTES.profile,
