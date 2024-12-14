@@ -40,8 +40,6 @@ export const LoginPage: React.FC = () => {
 
       if (authentication === 200) {
         navigate('/start')
-      } else {
-        console.error('Ошибка авторизации')
       }
     } catch (error) {
       console.error('Ошибка авторизации:', error)

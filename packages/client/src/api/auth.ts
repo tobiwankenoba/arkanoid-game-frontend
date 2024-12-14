@@ -1,30 +1,13 @@
 import axios from 'axios'
 
+import {
+  ISignUpRequest,
+  ISignInRequest,
+  ISignUpResponse,
+  IErrorResponse,
+} from '@/types/auth'
+
 const BASE_URL = 'https://ya-praktikum.tech/api/v2'
-
-interface ISignUpRequest {
-  first_name: string
-  second_name: string
-  login: string
-  email: string
-  password: string
-  phone: string
-}
-
-interface ISignUpResponse {
-  status: number
-  id: number
-  data: unknown
-}
-interface ISignInRequest {
-  login: string
-  password: string
-}
-
-interface IErrorResponse {
-  status: number
-  reason: string
-}
 
 export const signUp = async (
   data: ISignUpRequest
@@ -51,8 +34,8 @@ export const signUp = async (
     if (axios.isAxiosError(error) && error.response) {
       alert(error.response.data.reason)
       return {
-        status: error.response.status || 500, // На случай, если статус не найден
-        reason: error.response.data?.reason || 'Unknown error', // Стандартное сообщение об ошибке
+        status: error.response.status || 500,
+        reason: error.response.data?.reason || 'Unknown error',
       }
     }
     throw new Error('Unexpected error occurred')

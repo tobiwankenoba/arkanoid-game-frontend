@@ -27,18 +27,6 @@ export const RegisterPage: React.FC = () => {
   })
   const navigate = useNavigate()
 
-  // const handleSubmit = async (event: React.FormEvent) => {
-  //   event.preventDefault()
-  //   const register: SignUpResponse | ErrorResponse = await signUp(formData)
-  //   if (register.status === 200) {
-  //     navigate('/start')
-  //   }
-  // }
-
-  // const onSubmit = (data: typeof values) => {
-  //   console.log('Отправка данных:', data)
-  // }
-
   const onSubmit = async (formValues: typeof values) => {
     console.log('Отправка данных:', formValues)
 
@@ -46,8 +34,6 @@ export const RegisterPage: React.FC = () => {
       const register = await signUp(formValues)
       if (register.status === 200) {
         navigate('/start')
-      } else {
-        console.error('Ошибка регистрации:', register)
       }
     } catch (error) {
       console.error('Ошибка регистрации:', error)
