@@ -1,0 +1,5 @@
+export const BRICK_IMAGE = 'gameTextures/brick.jpg'
+export const BRICK_ICE_IMAGE = 'gameTextures/ice.jpg'
+export const BRICK_FIRE_IMAGE = ''
+export const BRICK_BUSH_IMAGE = 'gameTextures/grass.jpg'
+export const BRICK_FORCED_IMAGE = 'gameTextures/forced.jpg'

@@ -8,7 +8,7 @@ export default class Ball {
   public x!: number
   public y!: number
   public radius: number
-  protected speed: number
+  public speed: number
   protected angle!: number
   public dx!: number
   public dy!: number
@@ -37,7 +37,7 @@ export default class Ball {
     this.dx = this.speed * Math.sin(this.angle)
   }
 
-  public update() {
+  public update(): void {
     if (!this.isStoped) {
       this.x += this.dx
       this.y += this.dy

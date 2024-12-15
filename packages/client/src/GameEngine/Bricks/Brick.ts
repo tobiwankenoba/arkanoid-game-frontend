@@ -1,5 +1,7 @@
-import Ball from './Ball'
-import Game from './Game'
+import Airdrop from '../Airdrops/Airdrop'
+import Ball from '../Ball'
+import Game from '../Game'
+import { BRICK_IMAGE } from '../constants/images'
 
 export default class Brick {
   protected ctx
@@ -10,13 +12,17 @@ export default class Brick {
   public height: number
   public isDestroyed: boolean
   protected game: Game
+  protected image: HTMLImageElement
+  protected airdrop: Airdrop | null
 
   constructor(
     ctx: CanvasRenderingContext2D,
     canvas: HTMLCanvasElement,
     game: Game,
     x: number,
-    y: number
+    y: number,
+    airdrop: Airdrop | null,
+    image: string = BRICK_IMAGE
   ) {
     this.game = game
     this.canvas = canvas
@@ -25,13 +31,17 @@ export default class Brick {
     this.y = y
     this.width = 40
     this.height = 20
+    this.image = new Image()
+    this.image.src = image
     this.isDestroyed = false
+    this.airdrop = airdrop
   }
 
   public update(ball: Ball): void {
     const collisionSide = this.checkCollision(ball.x, ball.y, ball.radius)
     if (collisionSide) {
-      this.isDestroyed = true // Уничтожаем кирпич
+      this.toDamage()
+      this.toDropAirdrop()
       switch (collisionSide) {
         case 'top':
         case 'bottom':
@@ -42,6 +52,17 @@ export default class Brick {
           ball.dx = -ball.dx // Меняем горизонтальное направление
           break
       }
+    }
+  }
+
+  protected toDamage() {
+    this.isDestroyed = true
+  }
+
+  protected toDropAirdrop() {
+    if (this.isDestroyed && this.airdrop != null) {
+      this.airdrop.open()
+      this.game.airdrops.push(this.airdrop)
     }
   }
 
@@ -82,10 +103,12 @@ export default class Brick {
 
   public draw() {
     if (!this.isDestroyed) {
-      this.ctx.fillStyle = 'orange'
+      this.ctx.drawImage(this.image, this.x, this.y, this.width, this.height)
     } else {
       this.ctx.fillStyle = 'red'
     }
-    this.ctx.fillRect(this.x, this.y, this.width, this.height)
+    // if (this.airdrop != null) {
+    //   this.airdrop.draw();
+    // }
   }
 }
