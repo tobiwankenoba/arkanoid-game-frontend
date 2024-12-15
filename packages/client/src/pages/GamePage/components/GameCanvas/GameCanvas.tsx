@@ -27,7 +27,12 @@ export const GameCanvas: React.FC<ICanvasProps> = ({ width, height }) => {
 
   return (
     <div className="container-canvas">
-      <canvas ref={canvasRef} width={width} height={height} />
+      <canvas
+        ref={canvasRef}
+        width={width}
+        height={height}
+        style={{ background: '#fad390' }}
+      />
       <p>
         <span>
           <b>Enter</b> - для удара по шару

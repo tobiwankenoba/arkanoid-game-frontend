@@ -10,26 +10,38 @@ export default class Airdrop {
   protected game: Game
   protected speed = 2
   protected visible = false
+  protected image
+  public effectType: string
+  public duration: number
+  public isActive: boolean
 
   constructor(
     ctx: CanvasRenderingContext2D,
     canvas: HTMLCanvasElement,
     game: Game,
     x: number,
-    y: number
+    y: number,
+    effectType: string,
+    duration: number,
+    imageSrc: string
   ) {
     this.game = game
     this.canvas = canvas
     this.ctx = ctx
-    this.width = 30
-    this.height = 10
+    this.width = 20
+    this.height = 20
     this.x = x
     this.y = y
+    this.image = new Image()
+    this.image.src = imageSrc
+    this.effectType = effectType
+    this.duration = duration
+    this.isActive = true
   }
 
   public update() {
     if (this.visible) {
-      this.y += 2
+      this.y += this.speed
     }
   }
 
@@ -39,7 +51,9 @@ export default class Airdrop {
 
   public draw() {
     // this.ctx.beginPath();
-    this.ctx.fillStyle = this.visible ? 'lightgreen' : 'transparent'
-    this.ctx.fillRect(this.x, this.y, this.width, this.height)
+    // this.ctx.fillStyle = this.visible ? 'lightgreen' : 'transparent'
+    // this.ctx.fillRect(this.x, this.y, this.width, this.height)
+    if (this.visible)
+      this.ctx.drawImage(this.image, this.x, this.y, this.width, this.height)
   }
 }

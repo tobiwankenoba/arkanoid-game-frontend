@@ -1,23 +1,11 @@
 import Airdrop from './Airdrops/Airdrop'
 import Ball from './Ball'
 import Brick from './Bricks/Brick'
-import BrickBush from './Bricks/BrickBush'
-import BrickForced from './Bricks/BrickForced'
-import BrickIce from './Bricks/BrickIce'
 import inputHandler from './InputHandler'
 import Player from './Player'
+import * as effectTypes from './constants/airdropEffectType'
+import { AIRDROP_GEM } from './constants/images'
 import LEVELS from './constants/levels'
-
-const bricksPosition = [
-  { x: 0, y: 150, BrickConstructor: Brick },
-  { x: 61, y: 150, BrickConstructor: Brick },
-  { x: 102, y: 150, BrickConstructor: BrickForced },
-  { x: 143, y: 150, BrickConstructor: BrickForced },
-  { x: 184, y: 150, BrickConstructor: BrickForced },
-  { x: 264, y: 150, BrickConstructor: BrickIce },
-  { x: 264, y: 129, BrickConstructor: BrickBush },
-  { x: 305, y: 129, BrickConstructor: BrickIce },
-]
 
 export default class Game {
   protected canvas
@@ -33,6 +21,8 @@ export default class Game {
   protected isGameOver = false
   protected lastUpdateTime = 0
   protected currentLevel = 0
+  protected gem = 0
+  protected gemImage
   public airdrops: Airdrop[] = []
 
   constructor(canvas: HTMLCanvasElement) {
@@ -43,27 +33,26 @@ export default class Game {
     this.bricks = new Set()
     this.loadLevel(this.currentLevel)
     this.keyBoardKeys = new Set()
+    this.gemImage = new Image()
+    this.gemImage.src = AIRDROP_GEM
     if (this.ball) inputHandler(this, this.ball)
   }
 
   animate = () => {
-    // const deltaTime = this.lastUpdateTime
-    // ? (currentTime - this.lastUpdateTime) / 1000 // В секундах
-    // : 0;
-    // this.lastUpdateTime = currentTime;
     this.ctx?.clearRect(0, 0, this.canvas.width, this.canvas.height)
     this.draw()
     this.update()
     requestAnimationFrame(this.animate)
   }
 
-  // protected checkCollision(ball: Ball, player: Player) {
-  //   return (
-  //     ball.x + ball.radius >= player.x && // правая сторона мяча касается левой стороны ракетки
-  //     ball.x - ball.radius <= player.x + player.width && // левая сторона мяча касается правой стороны ракетки
-  //     ball.y + ball.radius >= player.y // нижняя часть мяча касается верхней части ракетки
-  //   )
-  // }
+  protected checkCollisionAirdrop(a: Airdrop, player: Player): boolean {
+    return (
+      a.x < player.x + player.width &&
+      a.x + a.width > player.x &&
+      a.y < player.y + player.height &&
+      a.y + a.height > player.y
+    )
+  }
 
   checkCollision(ball: Ball, player: Player): void {
     const ballBottom = ball.y + ball.radius
@@ -72,29 +61,27 @@ export default class Game {
     const playerRight = player.x + player.width
 
     if (
-      ballBottom >= playerTop && // Мяч касается верхней части платформы
-      ball.x >= playerLeft && // Мяч находится в пределах платформы по горизонтали
+      ballBottom >= playerTop &&
+      ball.x >= playerLeft &&
       ball.x <= playerRight
     ) {
-      // Рассчитываем позицию удара относительно центра платформы
-      const hitPosition = (ball.x - player.x) / player.width // Значение от 0 до 1
-      const angle = Math.PI / 4 // Максимальный угол отклонения (45 градусов)
+      const hitPosition = (ball.x - player.x) / player.width
+      const angle = Math.PI / 4
 
-      // Рассчитываем новый угол
-      const newAngle = angle * (2 * hitPosition - 1) // От -PI/4 (лево) до PI/4 (право)
-
-      // Перенаправляем мяч
-      ball.dy = -Math.abs(ball.speed * Math.cos(newAngle)) // Вертикальная скорость
-      ball.dx = ball.speed * Math.sin(newAngle) // Горизонтальная скорость
+      const newAngle = angle * (2 * hitPosition - 1)
+      ball.dy = -Math.abs(ball.speed * Math.cos(newAngle))
+      ball.dx = ball.speed * Math.sin(newAngle)
     }
   }
 
   protected loadLevel(levelIndex: number): void {
     this.bricks.clear()
     const level = LEVELS[levelIndex]
-    level.forEach(({ x, y, BrickConstructor, airdrop }) => {
+    level.forEach(({ x, y, BrickConstructor, AirdropContructor }) => {
       const newAirdrop =
-        airdrop != null ? new Airdrop(this.ctx!, this.canvas, this, x, y) : null
+        AirdropContructor != null
+          ? new AirdropContructor(this.ctx!, this.canvas, this, x, y)
+          : null
 
       const brick = new BrickConstructor(
         this.ctx!,
@@ -113,23 +100,52 @@ export default class Game {
       this.drawGameOver()
       return
     }
-
+    //рисуется мяч
     this.ball?.draw()
-
+    //рисуются аирдропы
     this.airdrops.forEach(airdrop => {
       airdrop.draw()
     })
-
+    // отрисовка кирпичей
     this.bricks.forEach(brick => {
       brick?.draw()
     })
-
+    // отрисовка платформы(игрок)
     this.player?.draw()
-    this.ctx?.fillText(`SCORE: ${this.score}`, 15, 15)
+    // отрисовка очков
+    this.ctx?.fillText(`Score: ${this.score}`, 95, 15)
+    // отрисовка жизни
     this.drawLifeLine()
+    this.drawGem()
+    this.drawLevel()
+  }
+
+  protected handleAirdropCollision(airdrop: Airdrop) {
+    if (this.player && this.checkCollisionAirdrop(airdrop, this.player)) {
+      switch (airdrop.effectType) {
+        case effectTypes.EFFECT_ADDLIFE:
+          this.lives = this.lives === 3 ? this.lives : (this.lives += 1)
+          break
+        case effectTypes.EFFECT_DAMAGELIFE:
+          this.lives -= 1
+          break
+        case effectTypes.EFFECT_RAPIDBALL:
+          this.ball?.applyEffect(airdrop.effectType, airdrop.duration)
+          break
+        case effectTypes.EFFECT_WIDEPLATFORM:
+          this.player.applyEffect(airdrop.effectType, airdrop.duration)
+          break
+        case effectTypes.EFFECT_GEM:
+          this.gem += 1
+      }
+      airdrop.isActive = false // Убираем airdrop
+    }
   }
 
   protected update() {
+    if (this.lives === 0) {
+      this.endGame()
+    }
     if (!this.isPause) {
       this.ball?.update()
       this.player?.update()
@@ -147,7 +163,12 @@ export default class Game {
         }
       })
 
-      this.airdrops.forEach(airdrop => {
+      this.airdrops.forEach((airdrop, index) => {
+        this.handleAirdropCollision(airdrop)
+
+        if (!airdrop.isActive) {
+          this.airdrops.splice(index, 1)
+        }
         airdrop.update()
       })
 
@@ -166,6 +187,7 @@ export default class Game {
       if (this.checkBallIsOut()) {
         this.lives -= 1
         this.ball?.stop()
+        this.airdrops = []
         this.resetGameSet()
         if (this.lives === 0) {
           this.endGame()
@@ -208,15 +230,40 @@ export default class Game {
         this.canvas.width / 2 - 50,
         this.canvas.height / 2 + 30
       )
+      this.ctx.fillText(
+        `Gems: ${this.gem}`,
+        this.canvas.width / 2 - 50,
+        this.canvas.height / 2 + 60
+      )
     }
   }
 
   protected drawLifeLine() {
     const rightMargin = 0
     const delta = 8
+    if (this.ctx) {
+      this.ctx.fillStyle = 'red'
+    }
     for (let i = 0; i <= this.lives; i += 1) {
       const rectStart = this.canvas.width - (rightMargin + delta * i)
       this.ctx?.fillRect(rectStart, 5, 5, 10)
+    }
+  }
+
+  protected drawGem() {
+    if (this.ctx) {
+      this.ctx.fillStyle = 'purple'
+      this.ctx.font = '12px Arial'
+      this.ctx.drawImage(this.gemImage, 160, 2, 20, 20)
+      this.ctx.fillText(`Gem: ${this.gem}`, 185, 15)
+    }
+  }
+
+  protected drawLevel() {
+    if (this.ctx) {
+      this.ctx.fillStyle = 'white'
+      this.ctx.font = '12px Arial'
+      this.ctx.fillText(`Level: ${this.currentLevel + 1}`, 15, 15)
     }
   }
 
