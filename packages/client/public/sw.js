@@ -1,14 +1,5 @@
 const CACHE_NAME = 'arkanoid-cache-v3'
-const URLS = [
-  '/',
-  '/start',
-  '/game',
-  '/leaderboard',
-  '/login',
-  '/register',
-  '/profile',
-  '/forum',
-]
+const URLS = ['/']
 
 self.addEventListener('install', event => {
   event.waitUntil(
