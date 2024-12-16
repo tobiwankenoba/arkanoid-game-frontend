@@ -1,5 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 
+import { useFullscreen } from '@/hooks/useFullscreenTrigger'
+
 import Game from '../../../../GameEngine/Game'
 
 interface ICanvasProps {
@@ -9,6 +11,7 @@ interface ICanvasProps {
 
 export const GameCanvas: React.FC<ICanvasProps> = ({ width, height }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
+  const { isFullscreen } = useFullscreen(canvasRef)
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -28,19 +31,21 @@ export const GameCanvas: React.FC<ICanvasProps> = ({ width, height }) => {
   return (
     <div className="container-canvas">
       <canvas ref={canvasRef} width={width} height={height} />
-      <p>
-        <span>
-          <b>Enter</b> - для удара по шару
-        </span>
-        <br />
-        <span>
-          <b>Пробел</b> - для паузы
-        </span>
-        <br />
-        <span>
-          <b>Стрелки влево и вправо</b> - для перемещения платформы
-        </span>
-      </p>
+      {!isFullscreen && (
+        <p id="description">
+          <span>
+            <b>Enter</b> - для удара по шару
+          </span>
+          <br />
+          <span>
+            <b>Пробел</b> - для паузы
+          </span>
+          <br />
+          <span>
+            <b>Стрелки влево и вправо</b> - для перемещения платформы
+          </span>
+        </p>
+      )}
     </div>
   )
 }
