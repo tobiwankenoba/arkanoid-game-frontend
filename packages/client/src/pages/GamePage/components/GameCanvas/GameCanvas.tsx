@@ -44,6 +44,10 @@ export const GameCanvas: React.FC<ICanvasProps> = ({ width, height }) => {
           <span>
             <b>Стрелки влево и вправо</b> - для перемещения платформы
           </span>
+          <br />
+          <span>
+            <b>F12</b> - для перехода в полноэкранный режим
+          </span>
         </p>
       )}
     </div>
