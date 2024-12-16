@@ -1,4 +1,5 @@
 import Game from './Game'
+import * as effectTypes from './constants/airdropEffectType'
 import { PLATFORM_MARGIN_BOTTOM, PLATFORM_WIDTH } from './constants/game'
 
 export default class Ball {
@@ -8,12 +9,13 @@ export default class Ball {
   public x!: number
   public y!: number
   public radius: number
-  protected speed: number
+  public speed: number
   protected angle!: number
   public dx!: number
   public dy!: number
   protected collided!: boolean
   protected isStoped = true
+  private effects: Map<string, NodeJS.Timeout>
 
   constructor(
     ctx: CanvasRenderingContext2D,
@@ -25,6 +27,7 @@ export default class Ball {
     this.ctx = ctx
     this.radius = 5
     this.speed = 4
+    this.effects = new Map()
     this.reset()
   }
 
@@ -37,7 +40,7 @@ export default class Ball {
     this.dx = this.speed * Math.sin(this.angle)
   }
 
-  public update() {
+  public update(): void {
     if (!this.isStoped) {
       this.x += this.dx
       this.y += this.dy
@@ -86,5 +89,34 @@ export default class Ball {
     this.ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI)
     this.ctx.fill()
     this.ctx.closePath()
+  }
+
+  applyEffect(effectType: string, duration: number) {
+    switch (effectType) {
+      case effectTypes.EFFECT_RAPIDBALL:
+        this.speed = 6
+        break
+    }
+
+    // Сбрасываем эффект через duration
+    if (this.effects.has(effectType)) {
+      clearTimeout(this.effects.get(effectType) as NodeJS.Timeout)
+    }
+
+    this.effects.set(
+      effectType,
+      setTimeout(() => {
+        this.removeEffect(effectType)
+      }, duration)
+    )
+  }
+
+  removeEffect(effectType: string) {
+    switch (effectType) {
+      case effectTypes.EFFECT_RAPIDBALL:
+        this.speed = 4
+        break
+    }
+    this.effects.delete(effectType)
   }
 }
