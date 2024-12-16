@@ -3,11 +3,21 @@ import { Provider as ReduxProvider } from 'react-redux'
 import { RouterProvider } from 'react-router-dom'
 
 import './App.css'
+import { registerSW } from '../public/registerSW'
+
 import { router } from './router/router'
 import { createReduxStore } from './utils/redux'
 
 function App() {
   const store = createReduxStore()
+
+  useEffect(() => {
+    window.addEventListener('load', registerSW)
+
+    return () => {
+      window.removeEventListener('load', registerSW)
+    }
+  }, [])
 
   useEffect(() => {
     const fetchServerData = async () => {
@@ -19,6 +29,7 @@ function App() {
 
     fetchServerData()
   }, [])
+
   return (
     <div className="App">
       <ReduxProvider store={store}>
