@@ -10,6 +10,8 @@ import React, { useEffect } from 'react'
 import { Link as RouterLink, useNavigate } from 'react-router-dom'
 
 import { signIn } from '@/api/auth'
+import { ROUTES } from '@/constants/routes'
+import { useAuthStatus } from '@/hooks/useAuthStatus'
 import { useForm } from '@/hooks/useForm'
 import { loginValidationSchema } from '@/hooks/useForm/schemas/loginValidationSchema'
 
@@ -24,22 +26,20 @@ export const LoginPage: React.FC = () => {
 
   const navigate = useNavigate()
 
+  const isAuthenticated = useAuthStatus()
   useEffect(() => {
-    const isAuthenticated = sessionStorage.getItem('token')
-
     if (isAuthenticated) {
       setTimeout(() => {
-        navigate('/start')
-      }, 2000)
+        navigate(ROUTES.home)
+      }, 1500)
     }
   }, [])
 
   const onSubmit = async (formValues: { login: string; password: string }) => {
     try {
       const authentication = await signIn(formValues)
-
       if (authentication === 200) {
-        navigate('/start')
+        navigate(ROUTES.home)
       }
     } catch (error) {
       console.error('Ошибка авторизации:', error)
