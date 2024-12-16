@@ -50,9 +50,6 @@ export default class Airdrop {
   }
 
   public draw() {
-    // this.ctx.beginPath();
-    // this.ctx.fillStyle = this.visible ? 'lightgreen' : 'transparent'
-    // this.ctx.fillRect(this.x, this.y, this.width, this.height)
     if (this.visible)
       this.ctx.drawImage(this.image, this.x, this.y, this.width, this.height)
   }

@@ -26,9 +26,4 @@ export default class BrickForced extends Brick {
       this.isDestroyed = true
     }
   }
-
-  // public draw() {
-  //   this.ctx.fillStyle = "green"
-  //   this.ctx.fillRect(this.x, this.y, this.width, this.height);
-  // }
 }

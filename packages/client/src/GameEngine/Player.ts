@@ -47,7 +47,6 @@ export default class Player {
 
   public draw() {
     this.ctx.fillStyle = 'blue'
-    // this.ctx.fillRect(this.x, this.y, this.width, this.height);
     this.ctx.drawImage(this.image, this.x, this.y, this.width, this.height)
   }
 

@@ -107,8 +107,5 @@ export default class Brick {
     } else {
       this.ctx.fillStyle = 'red'
     }
-    // if (this.airdrop != null) {
-    //   this.airdrop.draw();
-    // }
   }
 }

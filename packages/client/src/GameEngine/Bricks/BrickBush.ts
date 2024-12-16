@@ -25,9 +25,4 @@ export default class BrickBush extends Brick {
       this.isDestroyed = true
     }
   }
-
-  // public draw() {
-  //   this.ctx.fillStyle = "green"
-  //   this.ctx.fillRect(this.x, this.y, this.width, this.height);
-  // }
 }
