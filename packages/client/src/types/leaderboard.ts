@@ -1,4 +1,4 @@
-export type TLeaderBoardResponse200 = ILeaderBoardState[]
+export type TLeaderBoardResponse200 = ILeaderBoardResponse[]
 
 export type TLeaderBoardResponse400 = {
   reason: string
@@ -10,7 +10,8 @@ export type TLeaderBoardResponse =
 
 export interface ILeaderBoardRequest {
   data: {
-    RatingFieldName: string
+    grooveStreet: number
+    userId: number
     value: number
     name: string
   }
@@ -30,7 +31,18 @@ export interface IGetLeaderBoardRequest {
   limit: number
 }
 
+export interface ILeaderBoardResponse {
+  data: {
+    value: number
+    name: string
+    grooveStreet: number
+    userId: number
+  }
+}
+
 export interface ILeaderBoardState {
   points: number
   name: string
+  grooveStreet: number
+  userId: number
 }

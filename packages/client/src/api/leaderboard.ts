@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 import { BASE_URL } from '@/constants/api'
+import { prepareLeaderBoard } from '@/mappers/prepareLeaderBoard'
 import {
   IErrorResponse,
   IGetLeaderBoardRequest,
@@ -48,7 +49,7 @@ export const getLeaderBoard = async (
 ): Promise<ILeaderBoardState[]> => {
   try {
     const { status, data } = await axios.post<TLeaderBoardResponse>(
-      `${BASE_URL}/leaderboard/` + params.teamName,
+      `${BASE_URL}/leaderboard/all`,
       params,
       {
         headers: {
@@ -62,7 +63,7 @@ export const getLeaderBoard = async (
       throw new Error((data as TLeaderBoardResponse400).reason)
     }
 
-    return data as TLeaderBoardResponse200
+    return prepareLeaderBoard({ leaderBoard: data as TLeaderBoardResponse200 })
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
       return []

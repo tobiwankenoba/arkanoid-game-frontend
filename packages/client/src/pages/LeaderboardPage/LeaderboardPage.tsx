@@ -13,16 +13,26 @@ import {
 import { useSelector } from 'react-redux'
 
 import { sendLeaderBoardResult } from '@/api/leaderboard'
+import { selectUser } from '@/selectors'
 import { selectLeaderBoard } from '@/selectors/leaderBoard'
 
 export const LeaderboardPage: React.FC = () => {
   const leaderBoard = useSelector(selectLeaderBoard)
 
+  const user = useSelector(selectUser)
+
   const sendResult = async () => {
+    const userResult = leaderBoard.find(item => item.userId === user?.id)
+
     await sendLeaderBoardResult({
-      ratingFieldName: 'groove',
+      ratingFieldName: 'grooveStreet',
       teamName: 'groove',
-      data: { value: 200, name: 'Roman', RatingFieldName: 'groove' },
+      data: {
+        value: Number(userResult?.points) + 10,
+        userId: Number(user?.id),
+        name: String(user?.first_name),
+        grooveStreet: Number(userResult?.grooveStreet) + 1,
+      },
     })
   }
 
