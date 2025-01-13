@@ -23,12 +23,29 @@ function inputHandler(game: Game, ball: Ball) {
     }
   })
 
+  function sendNotification(message: string) {
+    if (!('Notification' in window)) {
+      alert(message) // fallback для старых браузеров
+      return
+    }
+
+    if (Notification.permission === 'granted') {
+      new Notification(message)
+    } else if (Notification.permission !== 'denied') {
+      Notification.requestPermission().then(permission => {
+        if (permission === 'granted') {
+          new Notification(message)
+        }
+      })
+    }
+  }
+
   window.addEventListener('gamepadconnected', (e: GamepadEvent) => {
-    console.log('Gamepad connected:', e.gamepad)
+    sendNotification(`Gamepad connected: ${e.gamepad}`)
   })
 
   window.addEventListener('gamepaddisconnected', (e: GamepadEvent) => {
-    console.log('Gamepad disconnected:', e.gamepad)
+    sendNotification(`Gamepad disconnected: ${e.gamepad}`)
   })
 
   function updateGamepad() {
