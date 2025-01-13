@@ -25,7 +25,7 @@ function inputHandler(game: Game, ball: Ball) {
 
   function sendNotification(message: string) {
     if (!('Notification' in window)) {
-      alert(message) // fallback для старых браузеров
+      alert(message)
       return
     }
 
@@ -67,14 +67,14 @@ function inputHandler(game: Game, ball: Ball) {
         }
       }
     }
-
-    function gameLoop() {
-      updateGamepad()
-      requestAnimationFrame(gameLoop)
-    }
-
-    gameLoop()
   }
+
+  function gameLoop() {
+    updateGamepad()
+    requestAnimationFrame(gameLoop)
+  }
+
+  gameLoop()
 }
 
 export default inputHandler
