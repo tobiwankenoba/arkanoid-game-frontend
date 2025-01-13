@@ -1,4 +1,5 @@
 import {
+  Button,
   Container,
   Paper,
   Table,
@@ -9,10 +10,22 @@ import {
   TableRow,
   Typography,
 } from '@mui/material'
+import { useSelector } from 'react-redux'
 
-import { TABLE_VALUE_MOCK } from '@/constants/leaderBoardMock'
+import { sendLeaderBoardResult } from '@/api/leaderboard'
+import { selectLeaderBoard } from '@/selectors/leaderBoard'
 
 export const LeaderboardPage: React.FC = () => {
+  const leaderBoard = useSelector(selectLeaderBoard)
+
+  const sendResult = async () => {
+    await sendLeaderBoardResult({
+      ratingFieldName: 'groove',
+      teamName: 'groove',
+      data: { value: 200, name: 'Roman', RatingFieldName: 'groove' },
+    })
+  }
+
   return (
     <Container
       sx={{
@@ -24,6 +37,7 @@ export const LeaderboardPage: React.FC = () => {
       <Typography gutterBottom color="info" variant="h2">
         LeaderBoard
       </Typography>
+      <Button onClick={sendResult}>Отправить dummy результат</Button>
 
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -35,11 +49,24 @@ export const LeaderboardPage: React.FC = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {TABLE_VALUE_MOCK.sort((a, b) => (a.points < b.points ? 1 : -1))
+            {leaderBoard.length === 0 && (
+              <TableRow>
+                <TableCell
+                  sx={{
+                    height: '200px',
+                    textAlign: 'center',
+                  }}
+                  colSpan={3}>
+                  Здесь будут лучшие рекодры!
+                </TableCell>
+              </TableRow>
+            )}
+            {leaderBoard
+              .sort((a, b) => (a.points < b.points ? 1 : -1))
               .slice(0, 5)
-              .map(({ name, id, points }, index) => (
+              .map(({ name, points }, index) => (
                 <TableRow
-                  key={id}
+                  key={index}
                   sx={{
                     '&:last-child td, &:last-child th': { border: 0 },
                   }}>
