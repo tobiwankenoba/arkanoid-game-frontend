@@ -1,13 +1,13 @@
 import axios from 'axios'
 
+import { BASE_URL } from '@/constants/api'
 import {
   ISignUpRequest,
   ISignInRequest,
   ISignUpResponse,
   IErrorResponse,
+  IUserInfo,
 } from '@/types/auth'
-
-const BASE_URL = 'https://ya-praktikum.tech/api/v2'
 
 export const signUp = async (
   data: ISignUpRequest
@@ -78,6 +78,28 @@ export const logout = async (): Promise<void | IErrorResponse> => {
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
       return error.response.data as IErrorResponse
+    }
+    throw new Error('Unexpected error occurred')
+  }
+}
+
+export const getUserInfo = async (): Promise<IUserInfo | null> => {
+  try {
+    const response = await axios.get(`${BASE_URL}/auth/user`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+    })
+
+    if (response.status !== 200) {
+      return null
+    }
+
+    return response.data
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      return null
     }
     throw new Error('Unexpected error occurred')
   }

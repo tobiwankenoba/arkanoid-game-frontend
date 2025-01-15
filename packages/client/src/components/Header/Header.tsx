@@ -1,12 +1,21 @@
-import { Avatar, Box, Button, Grid2 } from '@mui/material'
-import React, { useState } from 'react'
+import { Box, Button, Grid2 } from '@mui/material'
+import { useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 
+import { logout } from '@/api/auth'
 import gameLogo from '@/assets/logos/game_logo.png'
 import { ROUTES } from '@/constants/routes'
+import { selectUser } from '@/selectors'
 
 export const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const user = useSelector(selectUser)
+
+  const handleLogout = async () => {
+    await logout()
+
+    window.location.reload()
+  }
+
   return (
     <header>
       <Box
@@ -34,8 +43,12 @@ export const Header = () => {
           <NavLink to={ROUTES.forum}>
             <Button variant="outlined">Форум</Button>
           </NavLink>
-          {isLoggedIn ? (
-            <Avatar />
+          {user ? (
+            <NavLink to={ROUTES.login} onClick={handleLogout}>
+              <Button variant="outlined" color="error">
+                Выйти
+              </Button>
+            </NavLink>
           ) : (
             <NavLink to={ROUTES.login}>
               <Button variant="outlined" color="error">

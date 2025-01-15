@@ -30,7 +30,12 @@ export const GameCanvas: React.FC<ICanvasProps> = ({ width, height }) => {
 
   return (
     <div className="container-canvas">
-      <canvas ref={canvasRef} width={width} height={height} style={{ background: '#82ccdd' }} />
+      <canvas
+        ref={canvasRef}
+        width={width}
+        height={height}
+        style={{ background: '#82ccdd' }}
+      />
       {!isFullscreen && (
         <p>
           <span>

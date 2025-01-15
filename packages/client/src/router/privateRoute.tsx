@@ -1,18 +1,18 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom'
 
 import { ROUTES } from '@/constants/routes'
-import { useAuthStatus } from '@/hooks/useAuthStatus'
+import { selectUser } from '@/selectors'
 
 interface IPrivateRouteProps {
   children: React.ReactNode
 }
 
 export const PrivateRoute: React.FC<IPrivateRouteProps> = ({ children }) => {
-  const isAuthenticated = useAuthStatus()
-  console.log(isAuthenticated)
+  const user = useSelector(selectUser)
 
-  if (!isAuthenticated) {
+  if (user === null) {
     return <Navigate to={ROUTES.login} replace />
   }
 
