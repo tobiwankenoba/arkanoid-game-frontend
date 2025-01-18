@@ -10,6 +10,9 @@ export default defineConfig({
   server: {
     port: Number(process.env.CLIENT_PORT) || 3000,
   },
+  build: {
+    outDir: path.join(__dirname, 'dist/client'),
+  },
   define: {
     __SERVER_PORT__: process.env.SERVER_PORT,
   },
