@@ -7,6 +7,9 @@ export default {
   testMatch: ['<rootDir>/src/**/*.test.{ts,tsx}'],
   globals: {
     __SERVER_PORT__: process.env.SERVER_PORT,
+    'ts-jest': {
+      useBabelrc: true, // Использование настроек из .babelrc, если есть
+    },
   },
   moduleNameMapper: {
     '.(css|less|scss)$': '<rootDir>/src/Mocks/styleMock.js',
@@ -19,8 +22,13 @@ export default {
     '^@/assets/(.*)$': '<rootDir>/src/assets/$1',
   },
   transform: {
+    '^.+\\.(ts|tsx)$': 'ts-jest', // для TypeScript файлов
     '^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
-      '<rootDir>/file.parser.cjs',
+      '<rootDir>/file.parser.cjs', // для медиафайлов
   },
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  transformIgnorePatterns: [
+    '/node_modules/(?!canvas)', // Пример для использования canvas и других пакетов
+  ],
 }
