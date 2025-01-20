@@ -1,2 +1,2 @@
-const { createCanvas } = require('canvas')
+import { createCanvas } from 'canvas'
 global.HTMLCanvasElement = createCanvas

@@ -19,7 +19,8 @@ export default {
     '^@/assets/(.*)$': '<rootDir>/src/assets/$1',
   },
   transform: {
-    '^.+\\.(ts|tsx)$': 'ts-jest', // Обрабатываем TypeScript файлы с помощью ts-jest
+    '^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
+      '<rootDir>/file.parser.cjs',
   },
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
