@@ -11,8 +11,7 @@ interface IPrivateRouteProps {
 
 export const PrivateRoute: React.FC<IPrivateRouteProps> = ({ children }) => {
   const user = useSelector(selectUser)
-
-  if (user === null) {
+  if (user?.user === null) {
     return <Navigate to={ROUTES.login} replace />
   }
 

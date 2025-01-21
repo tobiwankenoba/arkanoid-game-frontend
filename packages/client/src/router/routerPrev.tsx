@@ -1,4 +1,6 @@
-import { Layout, initLayout } from '@/components/Layout'
+import { RouteObject } from 'react-router-dom'
+
+import { Layout } from '@/components/Layout'
 import { ROUTES } from '@/constants/routes'
 import { ForumPage } from '@/pages/ForumPage'
 import { ForumTopicPage } from '@/pages/ForumTopicPage'
@@ -11,49 +13,32 @@ import { ProfilePage } from '@/pages/ProfilePage'
 import { RegisterPage } from '@/pages/RegisterPage'
 import { ServerErrorPage } from '@/pages/ServerErrorPage'
 import { StartGame } from '@/pages/StartPage'
-import { TApplicationState, TDispatch } from '@/types/redux'
 
 import { PrivateRoute } from './privateRoute'
 
-export type TPageInitContext = {
-  clientToken?: string
-}
-
-export type TPageInitArgs = {
-  dispatch: TDispatch
-  state: TApplicationState
-  ctx: TPageInitContext
-}
-const initPageWithoutState = () => Promise.resolve()
-
-export const routes = [
+export const routes: RouteObject[] = [
   {
     element: <Layout />,
-    fetchData: initLayout,
     children: [
       {
         path: ROUTES.home,
         element: <HomePage />,
-        fetchData: initLayout,
       },
       {
         path: ROUTES.start,
         element: <StartGame />,
-        fetchData: initLayout,
       },
       {
         path: ROUTES.game,
         element: <GamePage />,
-        fetchData: initLayout,
       },
       {
         path: ROUTES.leaderboard,
         element: (
           <PrivateRoute>
-            <LeaderboardPage />
+            <LeaderboardPage />,
           </PrivateRoute>
         ),
-        fetchData: initLayout,
       },
       {
         path: ROUTES.profile,
@@ -62,7 +47,6 @@ export const routes = [
             <ProfilePage />
           </PrivateRoute>
         ),
-        fetchData: initLayout,
       },
       {
         path: ROUTES.forum,
@@ -71,38 +55,35 @@ export const routes = [
             <ForumPage />
           </PrivateRoute>
         ),
-        fetchData: initLayout,
       },
       {
         path: ROUTES.forumTopic,
-        element: <ForumTopicPage />,
-        fetchData: initLayout,
+        element: (
+          <PrivateRoute>
+            <ForumTopicPage />
+          </PrivateRoute>
+        ),
       },
     ],
   },
   {
     path: ROUTES.login,
     element: <LoginPage />,
-    fetchData: initPageWithoutState,
   },
   {
     path: ROUTES.register,
     element: <RegisterPage />,
-    fetchData: initPageWithoutState,
   },
   {
     path: ROUTES.serverError,
     element: <ServerErrorPage />,
-    fetchData: initPageWithoutState,
   },
   {
     path: ROUTES.notFound,
     element: <NotFoundPage />,
-    fetchData: initPageWithoutState,
   },
   {
     path: '*',
     element: <NotFoundPage />,
-    fetchData: initPageWithoutState,
   },
 ]

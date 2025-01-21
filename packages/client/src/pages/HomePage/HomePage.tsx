@@ -1,4 +1,6 @@
-import { EmojiEvents, SportsEsports, QuestionAnswer } from '@mui/icons-material'
+import EmojiEvents from '@mui/icons-material/EmojiEvents'
+import QuestionAnswer from '@mui/icons-material/QuestionAnswer'
+import SportsEsports from '@mui/icons-material/SportsEsports'
 import {
   Button,
   Grid2,
