@@ -13,7 +13,7 @@ import { fetchUserInfo } from '@/thunks/user/user'
 export const Layout = () => {
   usePage({ initPage: initLayout })
   const dispatch = useDispatch()
-
+  // useEffect working only browser
   useEffect(() => {
     dispatch(fetchUserInfo())
   }, [dispatch])
