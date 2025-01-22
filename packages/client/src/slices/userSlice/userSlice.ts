@@ -1,15 +1,42 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-import { getUserInfo } from '@/api/auth'
-import { TUser } from '@/types/user'
+import { fetchUserInfo } from '@/thunks'
+import { IUserInfo } from '@/types/auth'
 
-const initialState: TUser | null = await getUserInfo()
+interface IUserState {
+  user: IUserInfo | null
+  loading: boolean
+  error: string | null
+}
 
-/* istanbul ignore next */
-const userStatusSlice = createSlice({
+const initialState: IUserState = {
+  user: null,
+  loading: false,
+  error: null,
+}
+
+const userSlice = createSlice({
+  name: 'user',
   initialState,
-  name: 'userStatus',
-  reducers: {},
+  reducers: {
+    resetUserState: () => initialState,
+  },
+  extraReducers: builder => {
+    builder
+      .addCase(fetchUserInfo.pending, state => {
+        state.loading = true
+        state.error = null
+      })
+      .addCase(fetchUserInfo.fulfilled, (state, action) => {
+        state.loading = false
+        state.user = action.payload
+      })
+      .addCase(fetchUserInfo.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.payload as string
+      })
+  },
 })
 
-export const { reducer: userReducer } = userStatusSlice
+export const { resetUserState } = userSlice.actions
+export const userReducer = userSlice.reducer

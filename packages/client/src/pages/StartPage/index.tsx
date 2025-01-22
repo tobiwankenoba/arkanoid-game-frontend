@@ -8,6 +8,8 @@ import Instruction from '@/pages/StartPage/components/Instruction'
 
 const HEADER_HEIGHT = 92
 
+// const { CountdownCircleTimer } = pkg;
+
 export const StartGame = () => {
   const [isInstructionOpened, setIsInstructionOpened] = useState(false)
   const [isCountStarted, setIsCountStarted] = useState(false)

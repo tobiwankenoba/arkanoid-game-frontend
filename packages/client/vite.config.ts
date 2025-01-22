@@ -13,8 +13,12 @@ export default defineConfig({
   build: {
     outDir: path.join(__dirname, 'dist/client'),
   },
+  ssr: {
+    noExternal: ['@mui/icons-material', 'react-countdown-circle-timer'],
+  },
   define: {
-    __SERVER_PORT__: process.env.SERVER_PORT,
+    __EXTERNAL_SERVER_URL__: JSON.stringify(process.env.EXTERNAL_SERVER_URL),
+    __INTERNAL_SERVER_URL__: JSON.stringify(process.env.INTERNAL_SERVER_URL),
   },
   plugins: [react()],
   resolve: {

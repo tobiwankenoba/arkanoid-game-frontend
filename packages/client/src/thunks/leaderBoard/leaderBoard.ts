@@ -13,6 +13,5 @@ export const getLeaderBoardThunk = createAsyncThunk<
   IThunkApi
 >('leaderBoard/getLeaderBoard', async params => {
   const result = await getLeaderBoard(params)
-
   return result
 })

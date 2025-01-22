@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import Airdrop from '../Airdrops/Airdrop'
 import AidropAddlife from '../Airdrops/AirdropAddlife'
 import Game from '../Game'
