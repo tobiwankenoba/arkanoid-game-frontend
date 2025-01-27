@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { getLeaderBoard } from '@/api/leaderboard'
 import { ILeaderBoardState } from '@/types/leaderboard'
 
-const initialState: ILeaderBoardState[] = await getLeaderBoard({
+const initialState: any = getLeaderBoard({
   teamName: 'groove',
   ratingFieldName: 'grooveStreet',
   cursor: 0,
