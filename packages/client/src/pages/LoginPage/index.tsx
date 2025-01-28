@@ -10,6 +10,7 @@ import React, { useEffect } from 'react'
 import { Link as RouterLink, useNavigate } from 'react-router-dom'
 
 import { signIn } from '@/api/auth'
+import { YandexOAuthButton } from '@/components/YandexOAuthButton'
 import { ROUTES } from '@/constants/routes'
 import { useAuthStatus } from '@/hooks/useAuthStatus'
 import { useForm } from '@/hooks/useForm'
@@ -112,6 +113,10 @@ export const LoginPage: React.FC = () => {
             Создать
           </Link>
         </Typography>
+        <Typography variant="body2" textAlign="center" mt={2}>
+          Или войдите через:
+        </Typography>
+        <YandexOAuthButton />
       </Box>
     </Container>
   )
