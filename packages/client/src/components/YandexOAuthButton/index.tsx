@@ -20,7 +20,7 @@ export const YandexOAuthButton: React.FC = () => {
 
   const handleOAuth = () => {
     if (serviceId) {
-      window.location.href = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${serviceId}&redirect_uri=http://localhost:3000/oauth/callback`
+      window.location.href = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${serviceId}&redirect_uri=http://localhost:3000`
     }
   }
 
