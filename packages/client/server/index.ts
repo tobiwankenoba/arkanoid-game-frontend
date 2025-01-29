@@ -3,10 +3,6 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 
 import { EmotionCache } from '@emotion/react'
-import {
-  constructStyleTagsFromChunks,
-  extractCriticalToChunks,
-} from '@emotion/server'
 import createEmotionServer from '@emotion/server/create-instance'
 import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv'
