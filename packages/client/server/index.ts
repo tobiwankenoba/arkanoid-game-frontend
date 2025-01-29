@@ -1,5 +1,6 @@
 import fs from 'fs/promises'
 import path from 'path'
+import { fileURLToPath } from 'url'
 
 import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv'
@@ -7,9 +8,10 @@ import express, { Request as ExpressRequest } from 'express'
 import serialize from 'serialize-javascript'
 import { createServer as createViteServer, ViteDevServer } from 'vite'
 
-dotenv.config()
-
-const port = process.env.PORT || 80
+const port = process.env.PORT || 3000
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+dotenv.config({ path: path.resolve(__dirname, '../../../.env') })
 const clientPath = path.join(__dirname, '..')
 const isDev = process.env.NODE_ENV === 'development'
 
@@ -77,7 +79,7 @@ async function createServer() {
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
     } catch (e) {
-      vite.ssrFixStacktrace(e as Error)
+      vite?.ssrFixStacktrace(e as Error)
       next(e)
     }
   })

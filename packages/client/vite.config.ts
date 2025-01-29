@@ -14,7 +14,17 @@ export default defineConfig({
     outDir: path.join(__dirname, 'dist/client'),
   },
   ssr: {
-    noExternal: ['@mui/icons-material', 'react-countdown-circle-timer'],
+    noExternal: [
+      '@mui/icons-material',
+      '@mui/material',
+      '@mui/utils',
+      '@mui/system',
+      '@mui/base',
+      'react-countdown-circle-timer',
+    ],
+  },
+  optimizeDeps: {
+    // include: ['@mui/material', '@emotion/react', '@emotion/styled'],
   },
   define: {
     __EXTERNAL_SERVER_URL__: JSON.stringify(process.env.EXTERNAL_SERVER_URL),

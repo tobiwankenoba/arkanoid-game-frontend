@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const dotenv = require('dotenv')
+import dotenv from 'dotenv'
 
 dotenv.config()
 
-module.exports = {
+const config = {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
   testMatch: ['<rootDir>/src/**/*.test.{ts,tsx}'],
@@ -27,3 +26,5 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
 }
+
+export default config

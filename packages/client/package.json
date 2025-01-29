@@ -1,6 +1,7 @@
 {
   "name": "client",
   "version": "0.0.0",
+  "type": "module",
   "scripts": {
     "dev": "tsc --project tsconfig.server.json && cross-env NODE_ENV=development EXTERNAL_SERVER_URL='http://localhost:3001' INTERNAL_SERVER_URL='http://localhost:3001' node server/index.js",
     "build": "tsc --project tsconfig.server.json && vite build && vite build --ssr src/entry-server.tsx --outDir dist/server",
@@ -13,12 +14,11 @@
     "@emotion/react": "^11.13.5",
     "@emotion/styled": "^11.13.5",
     "@mui/icons-material": "^6.1.8",
-    "@mui/material": "^6.1.8",
+    "@mui/material": "^6.4.1",
     "@reduxjs/toolkit": "^2.3.0",
     "@types/cookie-parser": "^1.4.8",
     "axios": "^1.7.7",
     "cookie-parser": "^1.4.7",
-    "canvas": "^2.11.2",
     "dotenv": "^16.0.2",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.31.0",
