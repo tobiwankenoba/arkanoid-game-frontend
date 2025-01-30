@@ -5,7 +5,6 @@ export const ROUTES = {
   leaderboard: '/leaderboard',
   login: '/login',
   register: '/register',
-  oauth: '/oauth/callback',
   profile: '/profile',
   forum: '/forum',
   forumTopic: '/forum/topic/:id',
