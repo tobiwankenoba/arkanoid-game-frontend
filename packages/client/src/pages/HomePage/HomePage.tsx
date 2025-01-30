@@ -12,6 +12,7 @@ import {
 } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 
+import image from '@/assets/images/background.png'
 import { ROUTES } from '@/constants/routes'
 import { HEADER_HEIGHT } from '@/constants/sizes'
 
@@ -41,7 +42,7 @@ export const HomePage = () => {
       container
       direction="column"
       sx={{
-        backgroundImage: `url('src/assets/images/background.png')`,
+        backgroundImage: `url(${image})`,
         minHeight: `calc(100vh - ${HEADER_HEIGHT}px)`,
         paddingTop: '34px',
         paddingLeft: '160px',

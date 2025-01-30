@@ -1,3 +1,5 @@
+import createCache from '@emotion/cache'
+import { CacheProvider } from '@emotion/react'
 import { CssBaseline } from '@mui/material'
 import { Request as ExpressRequest } from 'express'
 import { renderToString } from 'react-dom/server'
@@ -54,14 +56,20 @@ export const render = async (req: ExpressRequest) => {
   store.dispatch(setPageHasBeenInitializedOnServer(true))
 
   const router = createStaticRouter(dataRoutes, context)
+  const key = 'custom'
+  const cache = createCache({ key })
+
   return {
     html: renderToString(
       <Provider store={store}>
-        {/* <SSRComponent /> */}
-        <CssBaseline />
-        <StaticRouterProvider router={router} context={context} />
+        <CacheProvider value={cache}>
+          {/* <SSRComponent /> */}
+          <CssBaseline />
+          <StaticRouterProvider router={router} context={context} />
+        </CacheProvider>
       </Provider>
     ),
     initialState: store.getState(),
+    cache,
   }
 }
