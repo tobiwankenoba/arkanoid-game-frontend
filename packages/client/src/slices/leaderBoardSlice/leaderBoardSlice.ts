@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 import { getLeaderBoard } from '@/api/leaderboard'
-import { ILeaderBoardState } from '@/types/leaderboard'
 
 const initialState: any = getLeaderBoard({
   teamName: 'groove',

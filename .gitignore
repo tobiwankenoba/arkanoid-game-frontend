@@ -4,4 +4,4 @@ node_modules/
 .vscode
 dist
 tmp
-packages/client/server/index.js
+./packages/client/server/index.js

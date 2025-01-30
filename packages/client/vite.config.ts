@@ -12,9 +12,20 @@ export default defineConfig({
   },
   build: {
     outDir: path.join(__dirname, 'dist/client'),
+    target: 'esnext',
   },
   ssr: {
-    noExternal: ['@mui/icons-material', 'react-countdown-circle-timer'],
+    noExternal: [
+      '@mui/material',
+      '@mui/utils',
+      '@mui/styled-engine',
+      // '@mui/base',
+      '@mui/icons-material',
+      '@mui/system',
+      'react-countdown-circle-timer',
+      // '@emotion/react',
+      // '@emotion/styled',
+    ],
   },
   define: {
     __EXTERNAL_SERVER_URL__: JSON.stringify(process.env.EXTERNAL_SERVER_URL),
