@@ -7,6 +7,7 @@ import { HomePage } from '@/pages/HomePage'
 import { LeaderboardPage } from '@/pages/LeaderboardPage'
 import { LoginPage } from '@/pages/LoginPage'
 import { NotFoundPage } from '@/pages/NotFoundPage'
+import { OAuthCallbackPage } from '@/pages/OAuthCallbackPage'
 import { ProfilePage } from '@/pages/ProfilePage'
 import { RegisterPage } from '@/pages/RegisterPage'
 import { ServerErrorPage } from '@/pages/ServerErrorPage'
@@ -88,6 +89,11 @@ export const routes = [
   {
     path: ROUTES.register,
     element: <RegisterPage />,
+    fetchData: initPageWithoutState,
+  },
+  {
+    path: ROUTES.oauth,
+    element: <OAuthCallbackPage />,
     fetchData: initPageWithoutState,
   },
   {
