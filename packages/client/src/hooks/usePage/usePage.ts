@@ -1,3 +1,4 @@
+import { Store } from '@reduxjs/toolkit'
 import { useEffect } from 'react'
 import { useDispatch, useSelector, useStore } from 'react-redux'
 
@@ -32,7 +33,7 @@ export const usePage = ({ initPage }: TPageProps) => {
   const pageHasBeenInitializedOnServer = useSelector(
     selectPageHasBeenInitializedOnServer
   )
-  const store = useStore()
+  const store: Store = useStore()
 
   useEffect(() => {
     if (pageHasBeenInitializedOnServer) {

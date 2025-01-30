@@ -8,3 +8,15 @@ export type TUser = {
   avatar: string
   email: string
 }
+
+export interface IUserState {
+  user: TUser | null
+  status: EUserStatus
+}
+
+export enum EUserStatus {
+  Init = 'init',
+  Success = 'success',
+  Failed = 'failed',
+  Loading = 'loading',
+}

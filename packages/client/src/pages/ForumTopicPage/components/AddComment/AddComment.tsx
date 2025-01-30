@@ -1,6 +1,8 @@
 import { Box, Button, TextField } from '@mui/material'
 import { ChangeEvent, useState } from 'react'
+import { useSelector } from 'react-redux'
 
+import { selectTheme } from '@/selectors/theme'
 import { TCommentTopic } from '@/types/topic'
 
 type TAddCommentProps = {
@@ -15,6 +17,8 @@ export const AddComment: React.FC<TAddCommentProps> = ({
   currentTopicId,
 }: TAddCommentProps) => {
   const [disabledButtonSend, setDisabledButtonSend] = useState(true)
+
+  const { theme } = useSelector(selectTheme)
 
   const [comment, setComment] = useState<string>()
 
@@ -42,7 +46,11 @@ export const AddComment: React.FC<TAddCommentProps> = ({
     <Box
       display="flex"
       flexDirection="column"
-      sx={{ width: '100%' }}
+      sx={{
+        width: '100%',
+        color: theme === 'black' ? 'white' : 'black',
+        backgroundColor: theme === 'black' ? 'black' : 'transparent',
+      }}
       maxWidth={600}>
       <Box component="form" display="flex" flexDirection="column" gap={2}>
         <TextField
@@ -51,12 +59,37 @@ export const AddComment: React.FC<TAddCommentProps> = ({
           onChange={handleCommentValue}
           variant="outlined"
           label="Type here your comment"
-          sx={{ width: '100%' }}
+          slotProps={{
+            input: {
+              style: {
+                color: theme === 'black' ? 'white' : 'black',
+                background: theme === 'black' ? 'black' : 'transparent',
+                borderColor: theme === 'black' ? 'white' : 'transparent',
+                borderWidth: '1px',
+                borderStyle: 'solid',
+              },
+            },
+            inputLabel: {
+              style: {
+                color: theme === 'black' ? 'white' : 'black',
+              },
+            },
+          }}
+          sx={{
+            multilineColor: theme === 'black' ? 'white' : 'black',
+            width: '100%',
+            color: theme === 'black' ? 'white' : 'black',
+            backgroundColor: theme === 'black' ? 'white' : 'transparent',
+            borderRadius: '4px',
+          }}
         />
         <Button
           disabled={disabledButtonSend}
           onClick={handleAddComment}
-          variant="contained">
+          variant="outlined"
+          sx={{
+            backgroundColor: theme === 'black' ? 'white' : 'transparent',
+          }}>
           Send
         </Button>
       </Box>

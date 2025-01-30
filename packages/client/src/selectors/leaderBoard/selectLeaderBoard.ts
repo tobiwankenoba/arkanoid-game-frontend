@@ -3,6 +3,6 @@ import { TApplicationState } from '@/types/redux'
 
 export const selectLeaderBoard = (
   state: TApplicationState
-): ILeaderBoardState[] => {
+): ILeaderBoardState => {
   return state.leaderBoard
 }

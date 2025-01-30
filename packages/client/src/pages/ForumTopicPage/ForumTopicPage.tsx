@@ -1,14 +1,13 @@
 import { Box } from '@mui/material'
 import { useCallback, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 
-import { DRAWER_NAVIGATION_LINKS_TOPIC_PAGE } from '@/constants/drawerNav'
 import { WIDTH_DRAWER_WINDOW } from '@/constants/forum'
 import { MOCK_COMMENTS_FORUM } from '@/constants/mockCommentsForum'
 import { MOCK_FORUM_TOPICS } from '@/constants/mockForumTopics'
+import { selectTheme } from '@/selectors/theme'
 import { TCommentTopic, TTopic } from '@/types/topic'
-
-import { DrawerNav } from '../../components/DrawerNav'
 
 import { AddComment } from './components/AddComment'
 import { Comments } from './components/Comments'
@@ -16,6 +15,8 @@ import { Topic } from './components/Topic'
 
 export const ForumTopicPage: React.FC = () => {
   const { id } = useParams()
+
+  const { theme } = useSelector(selectTheme)
 
   const currentTopic = MOCK_FORUM_TOPICS.find(
     item => item.id === Number(id)
@@ -31,7 +32,6 @@ export const ForumTopicPage: React.FC = () => {
 
   return (
     <Box display="flex">
-      <DrawerNav links={DRAWER_NAVIGATION_LINKS_TOPIC_PAGE} />
       <Box
         component="main"
         display="flex"
@@ -41,7 +41,9 @@ export const ForumTopicPage: React.FC = () => {
         sx={{
           flexGrow: 1,
           p: 3,
-          width: { sm: `calc(100% - ${WIDTH_DRAWER_WINDOW}px)` },
+          width: { sm: `100%` },
+          color: theme === 'black' ? 'white' : 'black',
+          backgroundColor: theme === 'black' ? 'black' : 'transparent',
         }}>
         <Topic {...currentTopic} />
         <AddComment

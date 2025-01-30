@@ -1,42 +1,32 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 import { fetchUserInfo } from '@/thunks'
-import { IUserInfo } from '@/types/auth'
-
-interface IUserState {
-  user: IUserInfo | null
-  loading: boolean
-  error: string | null
-}
+import { EUserStatus, IUserState } from '@/types/user'
 
 const initialState: IUserState = {
   user: null,
-  loading: false,
-  error: null,
+  status: EUserStatus.Init,
 }
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {
-    resetUserState: () => initialState,
-  },
+  reducers: {},
   extraReducers: builder => {
     builder
       .addCase(fetchUserInfo.pending, state => {
-        state.loading = true
-        state.error = null
+        state.user = null
+        state.status = EUserStatus.Loading
       })
       .addCase(fetchUserInfo.fulfilled, (state, action) => {
-        state.loading = false
         state.user = action.payload
+        state.status = EUserStatus.Success
       })
-      .addCase(fetchUserInfo.rejected, (state, action) => {
-        state.loading = false
-        state.error = action.payload as string
+      .addCase(fetchUserInfo.rejected, state => {
+        state.user = null
+        state.status = EUserStatus.Failed
       })
   },
 })
 
-export const { resetUserState } = userSlice.actions
-export const userReducer = userSlice.reducer
+export const { reducer: userReducer } = userSlice

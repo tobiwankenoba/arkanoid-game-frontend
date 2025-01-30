@@ -85,18 +85,21 @@ export const logout = async (): Promise<void | IErrorResponse> => {
 
 export const getUserInfo = async (): Promise<IUserInfo | null> => {
   try {
-    const response = await axios.get(`${BASE_URL}/auth/user`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      withCredentials: true,
-    })
+    const response = await axios.get<IUserInfo | IErrorResponse>(
+      `${BASE_URL}/auth/user`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      }
+    )
 
-    if (response.status !== 200) {
+    if (response.status !== 200 && (response.data as IErrorResponse).reason) {
       return null
     }
 
-    return response.data
+    return response.data as IUserInfo
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
       return null
