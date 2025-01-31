@@ -26,3 +26,19 @@ export const getComments = asyncHandler(
     return res.json(comments)
   }
 )
+
+export const deleteComment = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { id } = req.params
+    const comment = await Comment.findByPk(id)
+
+    if (!comment) {
+      return res.status(404).json({ error: 'Comment not found' })
+    }
+
+    await comment.destroy()
+    return res
+      .status(200)
+      .json({ message: `Comment id=${id}deleted successfully` })
+  }
+)

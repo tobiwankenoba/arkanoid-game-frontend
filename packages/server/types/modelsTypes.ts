@@ -20,7 +20,6 @@ export interface IComment {
 
 export interface IReaction {
   title: string
-  imageSrc: string
   commentId: number
   userId: number
 }
@@ -34,4 +33,9 @@ export interface ICommentAttributes {
   user?: IUser
   reactions?: IReaction[]
   comments?: ICommentAttributes[] // Вложенные комментарии
+}
+
+export interface ITheme {
+  title: string
+  userId: number
 }

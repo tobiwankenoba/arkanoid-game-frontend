@@ -13,7 +13,7 @@ export const authenticateUser = async (
     return res.status(403).json({ error: 'User is not authenticated' })
   }
 
-  const user = await User.findByPk(userId)
+  const user = await User.findOne({ where: { externalId: userId } })
   if (!user) {
     return res.status(403).json({ error: 'User not found' })
   }

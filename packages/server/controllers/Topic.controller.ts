@@ -48,12 +48,12 @@ export const getTopicsWithComments = asyncHandler(
 
 export const deleteTopic = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.params
-  // const topic = await Topic.findByPk(id);
+  const topic = await Topic.findByPk(id)
 
-  // if (!topic) {
-  //   return res.status(404).json({ error: 'Topic not found' });
-  // }
+  if (!topic) {
+    return res.status(404).json({ error: 'Topic not found' })
+  }
 
-  // await topic.destroy();
+  await topic.destroy()
   return res.status(200).json({ message: `Topic id=${id}deleted successfully` })
 })

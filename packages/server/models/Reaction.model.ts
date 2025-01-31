@@ -7,10 +7,6 @@ export const reactionModel: ModelAttributes<Model, IReaction> = {
     type: DataType.STRING,
     allowNull: false,
   },
-  imageSrc: {
-    type: DataType.STRING,
-    allowNull: true,
-  },
   commentId: {
     type: DataType.INTEGER,
     allowNull: true,
