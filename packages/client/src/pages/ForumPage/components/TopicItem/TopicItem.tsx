@@ -6,8 +6,10 @@ import {
   ListItemButton,
   Typography,
 } from '@mui/material'
+import { useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 
+import { selectTheme } from '@/selectors/theme'
 import { TTopic } from '@/types/topic'
 
 type TTopicItemProps = TTopic
@@ -17,13 +19,21 @@ export const TopicItem: React.FC<TTopicItemProps> = ({
   text,
   id,
 }: TTopicItemProps) => {
+  const { theme } = useSelector(selectTheme)
+
   return (
     <ListItem
       sx={{
         display: 'flex',
         alignItems: 'center',
+        color: theme === 'black' ? 'white' : 'black',
       }}>
-      <NavLink to={'/forum/topic/' + id}>
+      <NavLink
+        style={{
+          color: theme === 'black' ? 'white' : 'black',
+          textDecoration: 'none',
+        }}
+        to={'/forum/topic/' + id}>
         <ListItemButton
           sx={{
             display: 'flex',

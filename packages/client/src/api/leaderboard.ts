@@ -5,8 +5,8 @@ import { prepareLeaderBoard } from '@/mappers/prepareLeaderBoard'
 import {
   IErrorResponse,
   IGetLeaderBoardRequest,
+  ILeaderBoard,
   ILeaderBoardRequest,
-  ILeaderBoardState,
   TLeaderBoardResponse,
   TLeaderBoardResponse200,
   TLeaderBoardResponse400,
@@ -46,7 +46,7 @@ export const sendLeaderBoardResult = async (
 
 export const getLeaderBoard = async (
   params: IGetLeaderBoardRequest
-): Promise<ILeaderBoardState[]> => {
+): Promise<ILeaderBoard[]> => {
   try {
     const { status, data } = await axios.post<TLeaderBoardResponse>(
       `${BASE_URL}/leaderboard/all`,
@@ -58,6 +58,8 @@ export const getLeaderBoard = async (
         withCredentials: true,
       }
     )
+
+    console.log(data)
 
     if (status !== 200) {
       throw new Error((data as TLeaderBoardResponse400).reason)

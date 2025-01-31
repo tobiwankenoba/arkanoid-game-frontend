@@ -9,12 +9,7 @@ export type TLeaderBoardResponse =
   | TLeaderBoardResponse400
 
 export interface ILeaderBoardRequest {
-  data: {
-    grooveStreet: number
-    userId: number
-    value: number
-    name: string
-  }
+  data: ILeaderBoardData
   ratingFieldName: string
   teamName: string
 }
@@ -32,17 +27,33 @@ export interface IGetLeaderBoardRequest {
 }
 
 export interface ILeaderBoardResponse {
-  data: {
-    value: number
-    name: string
-    grooveStreet: number
-    userId: number
-  }
+  data: ILeaderBoardData
+}
+
+export interface ILeaderBoard extends ILeaderBoardField {
+  points: number
+  name: string
+  userId: number
 }
 
 export interface ILeaderBoardState {
-  points: number
+  data: ILeaderBoard[]
+  status: ELeaderBoardStatus
+}
+
+export enum ELeaderBoardStatus {
+  Init = 'init',
+  Loading = 'loading',
+  Success = 'success',
+  Failed = 'failed',
+}
+
+export interface ILeaderBoardField {
+  groove: number
+}
+
+export interface ILeaderBoardData extends ILeaderBoardField {
+  value: number
   name: string
-  grooveStreet: number
   userId: number
 }

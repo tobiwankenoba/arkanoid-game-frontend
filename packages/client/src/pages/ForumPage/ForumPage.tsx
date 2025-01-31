@@ -1,14 +1,12 @@
 import { Box, List } from '@mui/material'
 import { useCallback, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 import { ModalComponent } from '@/components/Modal'
-import { DRAWER_NAVIGATION_LINKS } from '@/constants/drawerNav'
-import { WIDTH_DRAWER_WINDOW } from '@/constants/forum'
 import { MOCK_FORUM_TOPICS } from '@/constants/mockForumTopics'
 import { useToggleState } from '@/hooks/useToggleState'
+import { selectTheme } from '@/selectors/theme'
 import { TTopic } from '@/types/topic'
-
-import { DrawerNav } from '../../components/DrawerNav'
 
 import { CreateTopic } from './components/CreateTopic'
 import { TopicItem } from './components/TopicItem'
@@ -20,16 +18,14 @@ export const ForumPage: React.FC = () => {
 
   const lastTopicId = topics[topics.length - 1]?.id ?? 0
 
+  const { theme } = useSelector(selectTheme)
+
   const handleTopics = useCallback((value: TTopic) => {
     setTopics(prev => [...prev, value])
   }, [])
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <DrawerNav
-        onOpenModal={toggleModalVisible}
-        links={DRAWER_NAVIGATION_LINKS}
-      />
       <Box
         component="main"
         display="flex"
@@ -37,7 +33,9 @@ export const ForumPage: React.FC = () => {
         sx={{
           flexGrow: 1,
           p: 3,
-          width: { sm: `calc(100% - ${WIDTH_DRAWER_WINDOW}px)` },
+          width: { sm: '100%' },
+          color: theme === 'black' ? 'white' : 'black',
+          backgroundColor: theme === 'black' ? 'black' : 'transparent',
         }}>
         <List sx={{ width: 600 }}>
           {topics.map((topic, index) => (
