@@ -1,4 +1,6 @@
 export const useAuthStatus = () => {
-  const token = sessionStorage.getItem('token')
-  return !!token
+  if (typeof window !== 'undefined') {
+    const token = sessionStorage.getItem('token')
+    return !!token
+  }
 }
