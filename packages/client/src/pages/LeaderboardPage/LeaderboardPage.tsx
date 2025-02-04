@@ -99,22 +99,19 @@ export const LeaderboardPage: React.FC = () => {
                 </TableCell>
               </TableRow>
             )}
-            {data
-              .sort((a, b) => (a.points < b.points ? 1 : -1))
-              .slice(0, 5)
-              .map(({ name, points }, index) => (
-                <TableRow
-                  key={index}
-                  sx={{
-                    '&:last-child td, &:last-child th': { border: 0 },
-                  }}>
-                  <TableCell component="th" scope="row">
-                    {index + 1}
-                  </TableCell>
-                  <TableCell align="right">{name}</TableCell>
-                  <TableCell align="right">{points}</TableCell>
-                </TableRow>
-              ))}
+            {data.map(({ name, points }, index) => (
+              <TableRow
+                key={index}
+                sx={{
+                  '&:last-child td, &:last-child th': { border: 0 },
+                }}>
+                <TableCell component="th" scope="row">
+                  {index + 1}
+                </TableCell>
+                <TableCell align="right">{name}</TableCell>
+                <TableCell align="right">{points}</TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>

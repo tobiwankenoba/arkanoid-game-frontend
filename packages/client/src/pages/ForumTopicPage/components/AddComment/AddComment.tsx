@@ -57,7 +57,7 @@ export const AddComment: React.FC<TAddCommentProps> = ({
           multiline
           rows={4}
           onChange={handleCommentValue}
-          variant="outlined"
+          variant="filled"
           label="Type here your comment"
           slotProps={{
             input: {
