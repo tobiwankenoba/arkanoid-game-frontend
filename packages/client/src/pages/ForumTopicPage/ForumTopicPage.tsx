@@ -3,7 +3,6 @@ import { useCallback, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 
-import { WIDTH_DRAWER_WINDOW } from '@/constants/forum'
 import { MOCK_COMMENTS_FORUM } from '@/constants/mockCommentsForum'
 import { MOCK_FORUM_TOPICS } from '@/constants/mockForumTopics'
 import { selectTheme } from '@/selectors/theme'
