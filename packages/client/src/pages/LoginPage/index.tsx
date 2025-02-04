@@ -10,6 +10,7 @@ import React, { useEffect } from 'react'
 import { Link as RouterLink, useNavigate } from 'react-router-dom'
 
 import { signIn } from '@/api/auth'
+import { YandexOAuthButton } from '@/components/YandexOAuthButton'
 import { ROUTES } from '@/constants/routes'
 import { useAuthStatus } from '@/hooks/useAuthStatus'
 import { useForm } from '@/hooks/useForm'
@@ -106,6 +107,7 @@ export const LoginPage: React.FC = () => {
         <Button type="submit" variant="contained" color="primary" fullWidth>
           Войти
         </Button>
+        <YandexOAuthButton />
         <Typography variant="body2" textAlign="center" mt={2}>
           Нет аккаунта?{' '}
           <Link component={RouterLink} to="/register" underline="hover">
