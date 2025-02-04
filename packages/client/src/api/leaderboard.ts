@@ -59,8 +59,6 @@ export const getLeaderBoard = async (
       }
     )
 
-    console.log(data)
-
     if (status !== 200) {
       throw new Error((data as TLeaderBoardResponse400).reason)
     }

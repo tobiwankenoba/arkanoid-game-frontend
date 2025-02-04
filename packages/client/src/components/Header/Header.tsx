@@ -16,8 +16,6 @@ export const Header = () => {
 
   const dispatch = useAppDispatch()
 
-  console.log(user)
-
   const { theme } = useSelector(selectTheme)
 
   const changeTheme = (theme: TTheme) => {
