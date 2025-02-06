@@ -25,6 +25,21 @@ export const signUp = async (
 
     console.log('User signed in successfully:', response.status)
     sessionStorage.setItem('token', 'ok')
+
+    await axios.post(
+      'http://localhost:3001/api/user',
+      {
+        id: response.data.id,
+        login: data.login,
+        display_name: data.first_name + ' ' + data.second_name,
+        avatar: null,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    )
     return {
       id: response.data.id,
       status: response.status,

@@ -1,9 +1,11 @@
 import { Box } from '@mui/material'
+import axios from 'axios'
 import React, { useEffect } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { useSelector } from 'react-redux'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 
+import { getUserInfo } from '@/api/auth'
 import { sendOAuthCode } from '@/api/oauth'
 import { Header } from '@/components/Header'
 import { ROUTES } from '@/constants/routes'
@@ -33,11 +35,29 @@ export const Layout = () => {
     const code = searchParams.get('code')
 
     if (code) {
-      console.log('Полученный code авторизации:', code)
-
       sendOAuthCode(code)
+        .then(() => getUserInfo())
+        .then(user => {
+          if (!user) {
+            throw new Error('Не удалось получить данные пользователя')
+          }
+
+          return axios.post(
+            'http://localhost:3001/api/user',
+            {
+              id: user.id,
+              login: user.login,
+              display_name: user.display_name,
+              avatar: user.avatar,
+            },
+            {
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            }
+          )
+        })
         .then(() => {
-          console.log('OAuth авторизация успешна!')
           navigate(ROUTES.home, { replace: true })
           window.location.reload()
         })
