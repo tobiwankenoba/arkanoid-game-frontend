@@ -9,6 +9,10 @@ export const authenticateUser = async (
 ): Promise<any> => {
   const { userId } = req.body
 
+  if (req.path === '/api/user' && req.method === 'POST') {
+    return next()
+  }
+
   if (!userId) {
     return res.status(403).json({ error: 'User is not authenticated' })
   }
