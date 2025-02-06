@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { BASE_URL } from '@/constants/api'
+import { API_URL, BASE_URL } from '@/constants/api'
 import {
   ISignUpRequest,
   ISignInRequest,
@@ -27,7 +27,7 @@ export const signUp = async (
     sessionStorage.setItem('token', 'ok')
 
     await axios.post(
-      'http://localhost:3001/api/user',
+      `${API_URL}/user`,
       {
         id: response.data.id,
         login: data.login,

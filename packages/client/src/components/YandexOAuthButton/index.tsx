@@ -1,7 +1,8 @@
 import { Button } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 
-import { getServiceId, REDIRECT_URI } from '@/api/oauth'
+import { getServiceId } from '@/api/oauth'
+import { REDIRECT_URI } from '@/constants/api'
 
 export const YandexOAuthButton: React.FC = () => {
   const [serviceId, setServiceId] = useState<string>('')

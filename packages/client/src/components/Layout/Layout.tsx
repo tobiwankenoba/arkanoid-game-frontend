@@ -8,6 +8,7 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { getUserInfo } from '@/api/auth'
 import { sendOAuthCode } from '@/api/oauth'
 import { Header } from '@/components/Header'
+import { API_URL } from '@/constants/api'
 import { ROUTES } from '@/constants/routes'
 import { useAppDispatch } from '@/hooks/useAppDispatch'
 import { usePage } from '@/hooks/usePage/usePage'
@@ -43,7 +44,7 @@ export const Layout = () => {
           }
 
           return axios.post(
-            'http://localhost:3001/api/user',
+            `${API_URL}/user`,
             {
               id: user.id,
               login: user.login,

@@ -1,21 +1,18 @@
 import axios from 'axios'
 
-export const REDIRECT_URI = 'http://localhost:3000'
+import { BASE_URL, REDIRECT_URI } from '@/constants/api'
 
 export const getServiceId = async () => {
-  const response = await axios.get(
-    'https://ya-praktikum.tech/api/v2/oauth/yandex/service-id',
-    {
-      params: { redirect_uri: REDIRECT_URI },
-    }
-  )
+  const response = await axios.get(`${BASE_URL}/oauth/yandex/service-id`, {
+    params: { redirect_uri: REDIRECT_URI },
+  })
   return response.data.service_id
 }
 
 export const sendOAuthCode = async (code: string) => {
   try {
     const response = await axios.post(
-      'https://ya-praktikum.tech/api/v2/oauth/yandex',
+      `${BASE_URL}/oauth/yandex`,
       {
         code,
         redirect_uri: REDIRECT_URI,
