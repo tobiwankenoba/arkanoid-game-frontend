@@ -47,9 +47,13 @@ export const TopicItem: React.FC<TTopicItemProps> = ({
               <Typography>{id}:</Typography>
               <Typography>{title}</Typography>
             </Box>
-            <Box>
-              <Typography>{text.slice(0, 50)}...</Typography>
-            </Box>
+            {text && (
+              <Box>
+                <Typography>
+                  {text.length > 50 ? `${text.slice(0, 50)}...` : text}
+                </Typography>
+              </Box>
+            )}
           </Box>
         </ListItemButton>
       </NavLink>

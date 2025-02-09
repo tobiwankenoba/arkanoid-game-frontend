@@ -7,6 +7,6 @@ import {
 
 export default (router: Router) => {
   router.post('/topic', createTopic)
-  router.get('/topics', getTopicsWithComments)
+  router.post('/topics', getTopicsWithComments)
   router.delete('/topics/:id', deleteTopic)
 }

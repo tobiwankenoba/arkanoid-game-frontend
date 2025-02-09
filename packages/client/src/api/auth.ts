@@ -122,3 +122,8 @@ export const getUserInfo = async (): Promise<IUserInfo | null> => {
     throw new Error('Unexpected error occurred')
   }
 }
+
+export const getUserId = async (): Promise<number | null> => {
+  const userInfo = await getUserInfo()
+  return userInfo ? userInfo.id : null
+}

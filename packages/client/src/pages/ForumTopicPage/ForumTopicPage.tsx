@@ -1,12 +1,13 @@
 import { Box } from '@mui/material'
-import { useCallback, useState } from 'react'
+import { useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 
-import { MOCK_COMMENTS_FORUM } from '@/constants/mockCommentsForum'
-import { MOCK_FORUM_TOPICS } from '@/constants/mockForumTopics'
+import { useAppDispatch } from '@/hooks/useAppDispatch'
+import { selectCommentsByTopicId, selectTopicById } from '@/selectors/forum'
 import { selectTheme } from '@/selectors/theme'
-import { TCommentTopic, TTopic } from '@/types/topic'
+import { addComment } from '@/slices/forumSlice'
+import { TCommentTopic } from '@/types/topic'
 
 import { AddComment } from './components/AddComment'
 import { Comments } from './components/Comments'
@@ -14,20 +15,18 @@ import { Topic } from './components/Topic'
 
 export const ForumTopicPage: React.FC = () => {
   const { id } = useParams()
+  const dispatch = useAppDispatch()
 
   const { theme } = useSelector(selectTheme)
+  const currentTopic = useSelector(selectTopicById(Number(id)))
+  const comments = useSelector(selectCommentsByTopicId(Number(id)))
 
-  const currentTopic = MOCK_FORUM_TOPICS.find(
-    item => item.id === Number(id)
-  ) as TTopic
-
-  const [activeComments, setActiveComments] = useState(
-    MOCK_COMMENTS_FORUM.filter(comment => comment.topicId === Number(id))
+  const handleActiveComments = useCallback(
+    (newComment: TCommentTopic) => {
+      dispatch(addComment(newComment))
+    },
+    [dispatch]
   )
-
-  const handleActiveComments = useCallback((newComment: TCommentTopic) => {
-    setActiveComments(prev => [...prev, newComment])
-  }, [])
 
   return (
     <Box display="flex">
@@ -44,13 +43,17 @@ export const ForumTopicPage: React.FC = () => {
           color: theme === 'black' ? 'white' : 'black',
           backgroundColor: theme === 'black' ? 'black' : 'transparent',
         }}>
-        <Topic {...currentTopic} />
-        <AddComment
-          lastCommentId={activeComments[activeComments.length - 1]?.id ?? 0}
-          currentTopicId={currentTopic?.id ?? 0}
-          onAddComment={handleActiveComments}
-        />
-        <Comments comments={activeComments} />
+        {currentTopic && (
+          <>
+            <Topic {...currentTopic} />
+            <AddComment
+              lastCommentId={comments.at(-1)?.id ?? 0}
+              currentTopicId={currentTopic.id}
+              onAddComment={handleActiveComments}
+            />
+            <Comments comments={comments} />
+          </>
+        )}
       </Box>
     </Box>
   )

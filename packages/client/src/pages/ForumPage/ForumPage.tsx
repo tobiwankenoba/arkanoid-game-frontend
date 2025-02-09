@@ -1,28 +1,39 @@
 import { Box, List } from '@mui/material'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
+import { getTopics } from '@/api/forum'
 import { ModalComponent } from '@/components/Modal'
-import { MOCK_FORUM_TOPICS } from '@/constants/mockForumTopics'
+import { useAppDispatch } from '@/hooks/useAppDispatch'
 import { useToggleState } from '@/hooks/useToggleState'
+import { selectTopics } from '@/selectors/forum'
 import { selectTheme } from '@/selectors/theme'
+import { setTopics } from '@/slices/forumSlice'
 import { TTopic } from '@/types/topic'
 
 import { CreateTopic } from './components/CreateTopic'
 import { TopicItem } from './components/TopicItem'
 
 export const ForumPage: React.FC = () => {
+  const dispatch = useAppDispatch()
   const { state: modalVisible, toggle: toggleModalVisible } = useToggleState()
-
-  const [topics, setTopics] = useState<TTopic[]>(MOCK_FORUM_TOPICS)
-
+  const topics = useSelector(selectTopics)
   const lastTopicId = topics[topics.length - 1]?.id ?? 0
 
   const { theme } = useSelector(selectTheme)
 
-  const handleTopics = useCallback((value: TTopic) => {
-    setTopics(prev => [...prev, value])
+  useEffect(() => {
+    getTopics()
+      .then(data => dispatch(setTopics([...data])))
+      .catch(error => console.error(error))
   }, [])
+
+  const handleTopics = useCallback(
+    (value: TTopic) => {
+      dispatch(setTopics([...topics, value]))
+    },
+    [dispatch, topics]
+  )
 
   return (
     <Box sx={{ display: 'flex' }}>
