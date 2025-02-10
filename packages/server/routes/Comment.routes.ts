@@ -7,6 +7,6 @@ import {
 
 export default (router: Router) => {
   router.post('/comment', createComment)
-  router.get('/comments', getComments)
+  router.post('/comments', getComments)
   router.delete('/comments/:id', deleteComment)
 }

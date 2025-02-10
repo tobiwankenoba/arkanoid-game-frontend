@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 
 import { themeReducer, userReducer, leaderBoardReducer } from '@/slices'
+import { forumReducer } from '@/slices/forumSlice'
 import ssrReducer from '@/slices/ssrSlice/ssrSlice'
 
 export function createReduxStore() {
@@ -10,6 +11,7 @@ export function createReduxStore() {
       leaderBoard: leaderBoardReducer,
       ssr: ssrReducer,
       theme: themeReducer,
+      forum: forumReducer,
     },
   })
 }

@@ -1,5 +1,5 @@
 import { Box, Button, TextField } from '@mui/material'
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 
 import { TTopic } from '@/types/topic'
 
@@ -15,26 +15,32 @@ export const CreateTopic: React.FC<TCreateTopicProps> = ({
   lastTopicId,
 }: TCreateTopicProps) => {
   const [createButtonDisabled, setCreateButtonDisabled] = useState(true)
+  const [title, setTitle] = useState<string>('')
+  const [description, setDescription] = useState<string>('')
 
-  const [title, setTitle] = useState<string>()
+  useEffect(() => {
+    setCreateButtonDisabled(
+      title.trim().length < 4 || description.trim().length < 16
+    )
+  }, [title, description])
 
-  const [text, setText] = useState<string>()
+  const handleCreateTopic = async () => {
+    if (!title || !description) return
 
-  const handleCreateTopic = () => {
-    if (title && text) {
-      onAddTopic({
-        id: ++lastTopicId,
-        title: title,
-        text: text,
-      })
+    const newTopic: TTopic = {
+      id: lastTopicId + 1,
+      title,
+      description,
     }
 
+    onAddTopic(newTopic)
     onToggleModalVisible()
   }
 
-  const handleChangeInputs = (title: string, text: string) => {
+  const handleChangeInputs = (title: string, description: string) => {
     setCreateButtonDisabled(
-      Number(title?.trim().length) < 4 || Number(text?.trim().length) < 16
+      Number(title?.trim().length) < 4 ||
+        Number(description?.trim().length) < 16
     )
   }
 
@@ -43,13 +49,13 @@ export const CreateTopic: React.FC<TCreateTopicProps> = ({
   ) => {
     setTitle(e.target.value)
 
-    handleChangeInputs(e.target.value, String(text))
+    handleChangeInputs(e.target.value, String(description))
   }
 
   const handleText = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setText(e.target.value)
+    setDescription(e.target.value)
 
     handleChangeInputs(String(title), e.target.value)
   }
