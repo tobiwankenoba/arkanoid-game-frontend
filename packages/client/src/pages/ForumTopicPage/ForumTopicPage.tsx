@@ -1,10 +1,11 @@
 import { Box } from '@mui/material'
-import { useCallback } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 
+import { addCommentQuery, getComments } from '@/api/forum'
 import { useAppDispatch } from '@/hooks/useAppDispatch'
-import { selectCommentsByTopicId, selectTopicById } from '@/selectors/forum'
+import { selectTopicById } from '@/selectors/forum'
 import { selectTheme } from '@/selectors/theme'
 import { addComment } from '@/slices/forumSlice'
 import { TCommentTopic } from '@/types/topic'
@@ -14,19 +15,35 @@ import { Comments } from './components/Comments'
 import { Topic } from './components/Topic'
 
 export const ForumTopicPage: React.FC = () => {
-  const { id } = useParams()
   const dispatch = useAppDispatch()
+  const { id } = useParams()
+  const topicId = Number(id)
 
   const { theme } = useSelector(selectTheme)
   const currentTopic = useSelector(selectTopicById(Number(id)))
-  const comments = useSelector(selectCommentsByTopicId(Number(id)))
+  const [comments, setComments] = useState<TCommentTopic[]>([])
 
   const handleActiveComments = useCallback(
-    (newComment: TCommentTopic) => {
-      dispatch(addComment(newComment))
+    async (newComment: TCommentTopic) => {
+      try {
+        await addCommentQuery(newComment)
+        setComments(prev => [...prev, newComment])
+        dispatch(addComment(newComment))
+      } catch (error) {
+        console.error('Ошибка при добавлении комментария:', error)
+      }
     },
     [dispatch]
   )
+
+  useEffect(() => {
+    getComments().then((data: TCommentTopic[]) => {
+      const filteredComments = data.filter(
+        comment => comment.topicId === topicId
+      )
+      setComments(filteredComments)
+    })
+  }, [])
 
   return (
     <Box display="flex">

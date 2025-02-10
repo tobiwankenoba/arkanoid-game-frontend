@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { Comment } from '../init'
+import { Comment, User } from '../init'
 import { asyncHandler } from '../utils/asyncHandler'
 
 export const createComment = asyncHandler(
@@ -10,11 +10,12 @@ export const createComment = asyncHandler(
         .status(400)
         .json({ error: 'content, topicId and userId are required' })
     }
+    const user = await User.findOne({ where: { externalId: userId } })
     const newComment = await Comment.create({
       content,
       commentId,
       topicId,
-      userId,
+      userId: user?.id,
     })
     return res.status(201).json(newComment)
   }

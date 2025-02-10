@@ -16,7 +16,7 @@ type TTopicItemProps = TTopic
 
 export const TopicItem: React.FC<TTopicItemProps> = ({
   title,
-  text,
+  description,
   id,
 }: TTopicItemProps) => {
   const { theme } = useSelector(selectTheme)
@@ -47,10 +47,12 @@ export const TopicItem: React.FC<TTopicItemProps> = ({
               <Typography>{id}:</Typography>
               <Typography>{title}</Typography>
             </Box>
-            {text && (
+            {description && (
               <Box>
                 <Typography>
-                  {text.length > 50 ? `${text.slice(0, 50)}...` : text}
+                  {description.length > 50
+                    ? `${description.slice(0, 50)}...`
+                    : description}
                 </Typography>
               </Box>
             )}

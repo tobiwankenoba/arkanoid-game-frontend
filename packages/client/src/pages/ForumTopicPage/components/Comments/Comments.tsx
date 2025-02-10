@@ -12,9 +12,9 @@ export const Comments: React.FC<TCommentProps> = ({
   return (
     <Box display="flex" flexDirection="column" width="100%" maxWidth={600}>
       <List sx={{ display: 'flex', flexDirection: 'column-reverse' }}>
-        {comments.map(({ id, text }) => (
+        {comments.map(({ id, content }) => (
           <ListItem key={id} sx={{ borderBottom: '0.1px solid gray' }}>
-            {text}
+            {content}
           </ListItem>
         ))}
       </List>

@@ -36,7 +36,7 @@ export const AddComment: React.FC<TAddCommentProps> = ({
     if (comment) {
       onAddComment({
         id: ++lastCommentId,
-        text: comment.trim(),
+        content: comment.trim(),
         topicId: currentTopicId,
       })
     }
