@@ -1,0 +1,1 @@
+export const WIDTH_DRAWER_WINDOW = 260
