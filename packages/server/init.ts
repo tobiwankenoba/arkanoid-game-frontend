@@ -4,11 +4,16 @@ import { commentModel } from './models/Comment.model'
 import { reactionModel } from './models/Reaction.model'
 import { userModel } from './models/User.model'
 import { themeModel } from './models/Theme.model'
-const { POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_PORT } =
-  process.env
-
+const {
+  POSTGRES_USER,
+  POSTGRES_PASSWORD,
+  POSTGRES_DB,
+  POSTGRES_PORT,
+  POSTGRES_HOST,
+} = process.env
+console.log(POSTGRES_HOST, 777)
 const sequelizeOptions: SequelizeOptions = {
-  host: 'localhost',
+  host: POSTGRES_HOST,
   port: Number(POSTGRES_PORT),
   username: POSTGRES_USER,
   password: POSTGRES_PASSWORD,

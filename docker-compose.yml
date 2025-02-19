@@ -19,6 +19,7 @@ services:
           - own_network
     server:
         container_name: prakticum-server
+        env_file: .env
         image: prackicum-server
         build:
             context: .
@@ -31,12 +32,14 @@ services:
         environment:
           SERVER_PORT: ${SERVER_PORT}
         depends_on:
-          - postgres
+          postgres:
+            condition: service_healthy
         networks:
           - own_network
 
     postgres:
-      image: postgres:14     
+      env_file: .env
+      image: postgres:14
       ports:
         - "${POSTGRES_PORT}:${POSTGRES_PORT}"
       environment:
@@ -45,6 +48,11 @@ services:
         POSTGRES_DB: ${POSTGRES_DB}
       volumes:
         - ./tmp/pgdata:/var/lib/postgresql/data
+      healthcheck:
+        test: [ "CMD", "sh", "-c", "pg_isready -U $$POSTGRES_USER -d ${POSTGRES_DB}" ]
+        interval: 10s
+        timeout: 5s
+        retries: 5
       networks:
         - own_network
 
@@ -63,8 +71,9 @@ services:
         - NGINX_PORT=${NGINX_PORT}
         - CLIENT_PORT=${CLIENT_PORT}
         - SERVER_PORT=${SERVER_PORT}
-      env_file:
-        ./.env
+      env_file: .env
+      depends_on:
+        - client
       networks:
         - own_network
 networks:
